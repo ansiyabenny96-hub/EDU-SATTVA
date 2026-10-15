@@ -1346,7 +1346,8 @@
       { id: "child-labour", title: "Child and Adolescent Labour", short: "Child labour law", year: "1986", citation: "Child and Adolescent Labour (Prohibition and Regulation) Act, 1986, as amended", type: "Central Act", category: "safeguarding", color: "butter-card", icon: "shield-check", summary: "Prohibits employment of children in all occupations and processes, with statutory definitions and limited exceptions.", detail: "The amended Act distinguishes children from adolescents and sets prohibitions and conditions. The facts and applicable exceptions matter; consult the current text and competent authorities for a specific situation.", sourceUrl: "https://indiacode.gov.in/act/1fe940f9-b6ed-4d97-871c-587007b16632", sourceLabel: "View official Act on India Code", keywords: ["child labour", "adolescent labour", "employment", "work", "prohibition"] },
       { id: "rpwd", title: "Rights of Persons with Disabilities", short: "RPwD Act", year: "2016", citation: "Rights of Persons with Disabilities Act, 2016", type: "Central Act · Inclusion", category: "foundational", color: "sky-card", icon: "accessibility", summary: "Provides rights and protections for persons with disabilities, including provisions relating to inclusive education.", detail: "The Act includes duties concerning non-discrimination and inclusive education. Specific duties and remedies depend on the institution, applicable rules, and the circumstances.", sourceUrl: "https://indiacode.gov.in/act/a2ccc006-552f-4598-886f-217d79088b9d", sourceLabel: "View official Act on India Code", keywords: ["disability", "disabled", "inclusive education", "accessibility", "reasonable accommodation", "rpwd", "special needs"] }
     ];
-    const OUT_OF_SCOPE = "I am specialized exclusively in Indian Educational Laws & Regulations. Please ask a question related to education sector legal guidelines.";
+    let datasetLoaded = false;
+    const OUT_OF_SCOPE = "I am specialized only in education and student welfare-related information based on my knowledge base. The query you asked is outside my scope.";
     const ACCOUNT_STORAGE_KEY = "sattva.accounts";
     const SESSION_STORAGE_KEY = "sattva.authenticatedUser";
     // This preview has no account API; browser storage is for demo flow only, not production authentication.
@@ -1368,6 +1369,7 @@
             id: law.id || `${law.title}-${index}`,
             keywords: Array.isArray(law.keywords) ? law.keywords : [law.title]
           }));
+          datasetLoaded = true;
           renderLaws();
           toast("Live dataset loaded from the backend.");
           return;
@@ -1411,6 +1413,7 @@
             keywords: [act.category, act.level, title, act.purpose, act.jurisdiction].filter(Boolean)
           };
         });
+        datasetLoaded = true;
         renderLaws();
         toast(`${LEGAL_LIBRARY.length} acts loaded from the bundled dataset.`);
       } catch (error) {
@@ -1453,11 +1456,14 @@
       document.getElementById("saved-count").textContent = savedIds.size ? `${savedIds.size} ${savedIds.size === 1 ? "law" : "laws"} saved to your reading list.` : "No laws saved yet. Tap a bookmark to keep one close.";
       renderIcons();
     }
-    function showResponse({ title, body, citation = "", fallback = false }) {
+    function showResponse({ title, body, citation = "", fallback = false, exact = false }) {
       const response = document.getElementById("response");
       response.classList.toggle("fallback", fallback);
       response.classList.add("visible");
-      document.getElementById("response-label").textContent = fallback ? "Quick answer" : "Quick answer";
+      document.querySelector(".response-label").hidden = exact;
+      document.getElementById("response-title").hidden = exact || !title;
+      document.getElementById("response-cite").hidden = exact || !citation;
+      document.getElementById("response-label").textContent = "Quick answer";
       document.getElementById("response-title").textContent = title;
       document.getElementById("response-body").textContent = body;
       document.getElementById("response-cite").textContent = citation;
@@ -1470,94 +1476,69 @@
       "under", "what", "when", "where", "which", "who", "why", "with"
     ]);
     const SEARCH_SYNONYMS = {
-      education: ["educational", "learning", "school", "student", "teacher", "child", "rights"],
-      school: ["schools", "classroom", "classrooms", "student", "students", "teacher", "teachers"],
+      education: ["educational"],
+      school: ["schools", "classroom", "classrooms"],
       student: ["students", "pupil", "pupils", "learner", "learners"],
       teacher: ["teachers", "educator", "educators", "faculty"],
-      admission: ["admissions", "enrolment", "enrollment", "reservation", "access"],
-      admissions: ["admission", "enrolment", "enrollment", "reservation", "access"],
-      schools: ["school", "classroom", "students", "teachers"],
-      students: ["student", "pupil", "pupils", "learner", "learners"],
-      teachers: ["teacher", "educator", "educators", "faculty"],
-      right: ["rights", "fundamental", "constitutional", "access", "inclusion"],
-      rights: ["right", "fundamental", "constitutional", "access", "inclusion", "disability", "reservation", "admission", "rte"],
-      disability: ["disabled", "accessibility", "inclusive", "accommodation"],
-      rte: ["right to education", "free education", "elementary education", "admission"],
-      pocso: ["child protection", "safeguarding", "sexual offence", "child safety"],
-      nep: ["national education policy", "policy framework", "curriculum"]
+      admission: ["admissions", "enrolment", "enrollment"],
+      right: ["rights"],
+      rte: ["right", "education", "free", "compulsory", "elementary"],
+      nep: ["national", "education", "policy"],
+      ugc: ["university", "grants", "commission"],
+      aicte: ["all", "india", "council", "technical", "education"],
+      ncte: ["national", "council", "teacher", "education"],
+      posco: ["pocso", "child", "sexual", "offence"],
+      pocso: ["posco", "child", "protection", "sexual", "offence"],
+      abuse: ["child", "sexual", "offence", "pocso"],
+      safeguarding: ["child", "protection", "pocso"],
+      welfare: ["child", "protection", "student"]
     };
+    const EDUCATION_SCOPE_TERMS = new Set([
+      "education", "educational", "school", "student", "pupil", "teacher", "teaching",
+      "university", "college", "syllabus", "curriculum", "academic", "academics",
+      "admission", "enrolment", "enrollment", "classroom", "pedagogy", "ragging",
+      "rte", "ugc", "aicte", "ncte", "nep", "21a", "29", "30", "45", "46", "51a",
+      "child", "children", "welfare"
+    ]);
+    const CHILD_SAFETY_TERMS = new Set(["abuse", "safeguarding", "sexual", "protection"]);
+    const CHILD_WELFARE_CONTEXT_TERMS = new Set(["child", "children", "student", "pupil", "school", "pocso", "posco"]);
+    const OUT_OF_SCOPE_TERMS = new Set([
+      "traffic", "road", "vehicle", "driving", "driver", "cooking", "cook", "recipe",
+      "food", "sport", "cricket", "football", "technology", "software", "computer",
+      "entertainment", "movie", "music", "personal", "advice"
+    ]);
     function searchTokens(value) {
       return value.toLocaleLowerCase().match(/[a-z0-9]+/g)?.filter((token) => token.length > 1 && !SEARCH_STOP_WORDS.has(token)) || [];
     }
+    function normalizeSearchToken(term) {
+      if (term.endsWith("ies") && term.length > 4) return `${term.slice(0, -3)}y`;
+      if (term.endsWith("s") && !term.endsWith("ss") && term.length > 3) return term.slice(0, -1);
+      return term;
+    }
+    function expandSearchTerm(term) {
+      const normalized = normalizeSearchToken(term);
+      return [normalized, ...(SEARCH_SYNONYMS[normalized] || []).flatMap(searchTokens)];
+    }
     function searchTermMatches(term, candidates) {
       if (term.length < 2) return false;
-      return candidates.some((candidate) => candidate.includes(term) || (term.length >= 4 && term.includes(candidate)));
+      const normalizedTerm = normalizeSearchToken(term);
+      return candidates.some((candidate) => normalizeSearchToken(candidate) === normalizedTerm);
     }
     function scoreSearchTerms(queryTerms, candidates, boost = 1) {
       let score = 0;
       for (const token of queryTerms) {
-        const relatedTerms = [token, ...(SEARCH_SYNONYMS[token] || [])];
+        const relatedTerms = expandSearchTerm(token);
         if (relatedTerms.some((term) => searchTermMatches(term, candidates))) score += 6 * boost;
       }
       return score;
     }
-    function findTopicAnswers(query, queryTerms) {
-      const topicResponses = [
-        {
-          patterns: ["pocso", "child protection", "sexual offence", "sexual abuse", "child safeguarding", "reporting abuse"],
-          keywords: ["child safety", "safeguarding", "mandatory reporting", "school protection"],
-          title: "POCSO and school safeguarding",
-          body: "POCSO is the Protection of Children from Sexual Offences Act, 2012. It requires reporting of child sexual offences and places a strong duty on adults, institutions, and officials to protect children and act promptly when abuse is reported or suspected. In school settings, the key steps are safety, dignity, privacy, and immediate reporting through the proper child-protection process.",
-          citation: "General education-law guidance; verify with the current statutory text and local procedure."
-        },
-        {
-          patterns: ["rte", "right to education", "age group", "free education", "elementary education", "school admission"],
-          keywords: ["admission", "enrolment", "elementary school", "free education", "age 6 to 14", "student access"],
-          title: "Right to Education",
-          body: "The Right of Children to Free and Compulsory Education Act, 2009 gives effect to Article 21A of the Constitution. It provides for free and compulsory education for children in the relevant elementary age group and imposes duties on schools, governments, and authorities to support access and continuity of education.",
-          citation: "Reference: RTE Act, 2009 and Article 21A."
-        },
-        {
-          patterns: ["nep", "national education policy", "nep 2020", "new education policy"],
-          keywords: ["curriculum", "education policy", "school reform", "learning"],
-          title: "NEP 2020",
-          body: "NEP 2020 is a national policy framework, not an Act of Parliament by itself. It guides reforms in curriculum, teacher quality, inclusion, digital learning, and institutional design. Policy goals often require legislation, rules, or administrative action before they create enforceable legal rights.",
-          citation: "Reference: National Education Policy 2020."
-        },
-        {
-          patterns: ["disability", "disabled", "inclusive education", "rpwd", "special needs"],
-          keywords: ["accessibility", "accommodation", "inclusion", "disability rights"],
-          title: "Disability and inclusion",
-          body: "The Rights of Persons with Disabilities Act, 2016 supports inclusion, non-discrimination, and access to education. Institutions are expected to ensure reasonable accommodations, accessible learning environments, and inclusive support where applicable under the current law and official rules.",
-          citation: "Reference: RPwD Act, 2016."
-        },
-        {
-          patterns: ["child labour", "adolescent labour", "employment of children", "working children"],
-          keywords: ["child employment", "work", "prohibition", "child protection"],
-          title: "Child labour and education",
-          body: "Child labour laws restrict child employment and protect children from hazardous work. Education and safety are closely connected, so schools and authorities often need to coordinate with labour and child-protection rules to prevent exploitation and support the child's right to education.",
-          citation: "Reference: Child and Adolescent Labour laws."
-        },
-        {
-          patterns: ["school", "teacher", "students", "student rights", "education rights"],
-          keywords: ["education", "school", "schools", "rights", "student", "teacher"],
-          title: "Education rights and school obligations",
-          body: "In India, education-related rights are shaped by the Constitution, the RTE framework, child-protection laws, and sector-specific policy instruments. The exact legal outcome depends on the issue, the institution, and the applicable rules, so this summary is a general guide rather than legal advice.",
-          citation: "General education-law guidance."
-        }
-      ];
-
-      const normalizedQuery = query.toLocaleLowerCase();
-      const broadTerms = new Set(["education", "educational", "school", "schools", "rights", "right", "student", "students", "teacher", "teachers"]);
-      return topicResponses.map((item) => {
-        const candidates = [...item.patterns, ...item.keywords, item.title].flatMap(searchTokens);
-        let score = scoreSearchTerms(queryTerms, candidates, 2);
-        if (item.patterns.some((pattern) => normalizedQuery.includes(pattern))) score += 18;
-        if (item.keywords.some((keyword) => normalizedQuery.includes(keyword))) score += 12;
-        if (item.title.toLocaleLowerCase().includes(normalizedQuery)) score += 20;
-        if (item.title === "Education rights and school obligations" && queryTerms.some((term) => broadTerms.has(term))) score += 10;
-        return { item, score };
-      }).filter((entry) => entry.score > 0).sort((left, right) => right.score - left.score);
+    function isEducationQuery(queryTerms) {
+      const normalizedTerms = queryTerms.map(normalizeSearchToken);
+      if (normalizedTerms.some((term) => OUT_OF_SCOPE_TERMS.has(term))) return false;
+      if (normalizedTerms.some((term) => EDUCATION_SCOPE_TERMS.has(term))) return true;
+      if (normalizedTerms.some((term) => term === "pocso" || term === "posco")) return true;
+      return normalizedTerms.some((term) => CHILD_SAFETY_TERMS.has(term)) &&
+        normalizedTerms.some((term) => CHILD_WELFARE_CONTEXT_TERMS.has(term));
     }
     function searchLegal(query) {
       const normalized = query.trim().toLocaleLowerCase();
@@ -1567,8 +1548,18 @@
         toast("Type a question to get started.");
         return;
       }
+      if (!datasetLoaded) {
+        toast("The education dataset is still loading. Please try again.");
+        return;
+      }
       recentQueries.unshift(query.trim());
       if (recentQueries.length > 5) recentQueries.pop();
+
+      const isShortQuery = normalized.split(/\s+/).length <= 3;
+      if (!isShortQuery && !isEducationQuery(queryTerms)) {
+        showResponse({ body: OUT_OF_SCOPE, fallback: true, exact: true });
+        return;
+      }
 
       const scoredMatches = LEGAL_LIBRARY.map((law) => {
         const haystack = [
@@ -1587,44 +1578,33 @@
         let score = scoreSearchTerms(queryTerms, candidates);
         score += scoreSearchTerms(queryTerms, keywordCandidates, 2);
         score += scoreSearchTerms(queryTerms, titleCandidates, 2);
-        if (normalized.length > 2 && haystack.includes(normalized)) score += 30;
+        if (
+          queryTerms.some((term) => ["posco", "pocso", "abuse"].includes(normalizeSearchToken(term))) &&
+          law.title.toLocaleLowerCase().includes("protection of children from sexual offences")
+        ) {
+          score += 24;
+        }
+        if (queryTerms.includes("rte") && law.title.toLocaleLowerCase().includes("right of children to free and compulsory education act")) {
+          score += 24;
+        }
         return { law, score };
       }).filter((entry) => entry.score > 0).sort((a, b) => b.score - a.score);
 
-      const topicAnswers = findTopicAnswers(normalized, queryTerms);
-      const topicAnswer = topicAnswers[0]?.score >= 6 ? topicAnswers[0].item : null;
-      const educationRelevant = topicAnswers.length > 0 || scoredMatches.length > 0;
-      const relatedLaws = scoredMatches
-        .filter((entry) => entry.score >= 6)
-        .slice(0, 6)
-        .map(({ law }) => `${law.short}: ${law.summary}`)
-        .join("\n");
-
-      if (!educationRelevant) {
-        showResponse({ title: OUT_OF_SCOPE, body: "This portal focuses on Indian education-sector legal guidance, including school rights, child safeguarding, and inclusion.", fallback: true });
-      } else if (topicAnswer) {
-        const relatedGuides = relatedLaws ? `\n\nRelated law guides\n${relatedLaws}` : "";
-        const otherTopics = topicAnswers
-          .slice(1)
-          .filter((entry) => entry.score >= 12 && entry.item.title !== topicAnswer.title)
-          .slice(0, 2)
-          .map((entry) => entry.item.title);
-        const topicNote = otherTopics.length ? `\n\nAlso related: ${otherTopics.join(", ")}.` : "";
-        showResponse({
-          title: topicAnswer.title,
-          body: `${topicAnswer.body}${topicNote}${relatedGuides}`,
-          citation: topicAnswer.citation
-        });
-      } else if (scoredMatches.length) {
+      if (!scoredMatches.length || (!isShortQuery && !isEducationQuery(queryTerms))) {
+        showResponse({ body: OUT_OF_SCOPE, fallback: true, exact: true });
+      } else {
         const match = scoredMatches[0].law;
-        const relatedGuides = relatedLaws ? `\n\nRelated law guides\n${relatedLaws}` : "";
+        const relatedGuides = scoredMatches
+          .slice(1, 7)
+          .map(({ law }) => `${law.short}: ${law.summary}`)
+          .join("\n");
+        const relatedSection = relatedGuides ? `\n\nRelated law guides\n${relatedGuides}` : "";
+        const description = match.summary || match.detail;
         showResponse({
           title: match.short,
-          body: `${match.summary} ${match.detail}${relatedGuides}`,
-          citation: `Reference: ${match.citation}. Check the current official text for your situation.`
+          body: `${description}${relatedSection}`,
+          citation: match.citation ? `Source record: ${match.citation}.` : ""
         });
-      } else {
-        showResponse({ title: "General education-law note", body: "In India, education-related rights and obligations are generally shaped by the Constitution, the RTE framework, child-protection laws, and sector policies. For a specific case, check the exact statute and current rules before taking action.", citation: "General guidance; not legal advice." });
       }
     }
     function openDetail(law) {
