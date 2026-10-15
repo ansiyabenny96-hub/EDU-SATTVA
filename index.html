@@ -13,39 +13,91 @@
   <style>
     :root {
       color-scheme: light;
-      --paper: #f6faf6;
+      --paper: #f3faf7;
       --white: #fffefa;
-      --ink: #243a34;
-      --muted: #71817a;
-      --line: #e4ece5;
-      --mint: #dff2e7;
-      --mint-strong: #37765e;
-      --sky: #e3f1f8;
-      --lilac: #eee8f7;
-      --butter: #fbf1ce;
-      --rose: #f8e5e0;
+      --ink: #1f3932;
+      --muted: #647a72;
+      --line: #dfeae4;
+      --mint: #d8f0e2;
+      --mint-strong: #2f6c58;
+      --sky: #dfeefb;
+      --sky-strong: #3c7eb7;
+      --lilac: #efe7fb;
+      --butter: #f9eebc;
+      --rose: #f6dcd7;
       --shadow: 0 16px 44px rgba(56, 93, 75, .09);
       --sans: "DM Sans", "Segoe UI", sans-serif;
       --serif: "Fraunces", Georgia, serif;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.5 var(--sans); }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(126, 201, 176, 0.45), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(104, 169, 228, 0.30), transparent 25%),
+        linear-gradient(135deg, #edf8f4 0%, #eaf3fb 35%, #f8f3eb 100%);
+      color: var(--ink);
+      font: 14px/1.5 var(--sans);
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      z-index: -2;
+      width: 42rem;
+      height: 42rem;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.46;
+      animation: floatGlow 16s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    body::before {
+      top: -12rem;
+      left: -9rem;
+      background: rgba(128, 212, 177, 0.48);
+    }
+    body::after {
+      right: -10rem;
+      bottom: -12rem;
+      background: rgba(120, 170, 235, 0.40);
+      animation-delay: 3s;
+    }
     button, input { font: inherit; }
     button { color: inherit; }
     button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #8abda4; outline-offset: 3px; }
     .app { min-height: 100vh; }
     .app[hidden], .login-page[hidden] { display: none !important; }
-    .login-page { min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: radial-gradient(ellipse at 78% 10%, #f9f2d9 0, transparent 30%), var(--paper); }
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.52), rgba(229,238,248,0.75));
+      backdrop-filter: blur(4px);
+      position: relative;
+    }
     .login-topbar { width: min(1440px, 100%); height: 76px; flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; margin: 0 auto; padding: 0 42px; }
     .login-context { display: flex; align-items: center; gap: 8px; color: #71817a; font-size: 11px; }
     .login-context svg { width: 15px; height: 15px; color: #71937e; }
     .login-main { width: min(1440px, 100%); flex: 1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr); align-items: center; gap: clamp(38px, 6vw, 88px); margin: 0 auto; padding: 12px 42px 34px; }
-    .login-art { min-height: 570px; height: min(700px, 75vh); position: relative; overflow: hidden; border: 1px solid #e2ebdf; border-radius: 24px; background: #e5efe5; box-shadow: var(--shadow); isolation: isolate; }
+    .login-art {
+      min-height: 570px;
+      height: min(700px, 75vh);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(226,235,223,0.9);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(227,245,232,0.96), rgba(206,229,246,0.82));
+      box-shadow: 0 24px 60px rgba(47,79,62,0.12);
+      isolation: isolate;
+    }
     .login-art::after { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgba(229,242,231,.08) 15%, rgba(226,239,228,.78) 78%, #e7f2e7 100%), linear-gradient(120deg, rgba(229,242,231,.2), rgba(226,241,248,.22)); }
     .login-art-image { width: 100%; height: 100%; position: absolute; z-index: -2; inset: 0; display: block; object-fit: cover; object-position: center; opacity: .88; }
     .login-art-copy { position: absolute; right: 40px; bottom: 36px; left: 40px; max-width: 540px; }
-    .login-art-kicker { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid rgba(69,104,78,.14); border-radius: 999px; background: rgba(255,254,250,.78); color: #53775e; font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
+    .login-art-kicker { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid rgba(69,104,78,.14); border-radius: 999px; background: rgba(255,254,250,.80); color: #3f6f69; font-size: 10px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
     .login-art-kicker svg { width: 14px; height: 14px; }
     .login-art-copy h1 { max-width: 470px; margin: 15px 0 9px; font: 500 clamp(37px, 4.2vw, 57px)/1.03 var(--serif); }
     .login-art-copy p { max-width: 420px; margin: 0; color: #526b5c; font-size: 13px; }
@@ -53,15 +105,27 @@
     .login-art-caption svg { width: 14px; height: 14px; }
     .login-float { position: absolute; z-index: 1; width: 54px; height: 54px; display: grid; place-items: center; border: 1px solid rgba(77,105,82,.1); border-radius: 17px; background: rgba(255,254,250,.88); color: #54755f; box-shadow: 0 12px 30px rgba(56,93,75,.12); animation: bob 4.3s ease-in-out infinite; }
     .login-float svg { width: 23px; height: 23px; stroke-width: 1.7; }
-    .login-float.books { top: 18%; left: 13%; background: #e4f2e8; }
-    .login-float.justice { top: 11%; right: 15%; background: #f9efd1; animation-delay: -1.6s; }
-    .login-float.school { top: 44%; right: 10%; background: #e7eff8; animation-delay: -2.4s; }
+    .login-float.books { top: 18%; left: 13%; background: #dff2e6; }
+    .login-float.justice { top: 11%; right: 15%; background: #f9efd6; animation-delay: -1.6s; }
+    .login-float.school { top: 44%; right: 10%; background: #dfeefb; animation-delay: -2.4s; }
     .login-panel { width: min(100%, 430px); margin: 0 auto; padding: 14px 8px; }
     .login-greeting { color: #72917c; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
     .login-panel h2 { margin: 11px 0 6px; font: 500 34px/1.12 var(--serif); }
     .login-panel > p { margin: 0 0 22px; color: var(--muted); font-size: 13px; }
     .login-footer { width: min(1440px, 100%); display: flex; justify-content: space-between; gap: 16px; margin: 0 auto; padding: 0 42px 20px; color: #98a49c; font-size: 10px; }
-    .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 42px; border-bottom: 1px solid var(--line); background: rgba(255,254,250,.8); }
+    .topbar {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 42px;
+      border-bottom: 1px solid rgba(228,236,229,0.8);
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
     .brand { display: inline-flex; align-items: center; gap: 11px; color: inherit; text-decoration: none; }
     .brand-mark { width: 38px; height: 38px; border-radius: 13px; display: grid; place-items: center; background: var(--mint); color: var(--mint-strong); }
     .brand-copy { display: grid; line-height: 1.15; }
@@ -74,7 +138,14 @@
     .avatar { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--butter); font-size: 17px; }
     .avatar-label { text-align: left; font-size: 12px; font-weight: 600; }
     .avatar-label small { display: block; color: var(--muted); font-size: 10px; font-weight: 400; }
-    .layout { max-width: 1440px; margin: 0 auto; padding: 30px 42px 56px; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 42px; }
+    .layout {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 30px 42px 56px;
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 42px;
+    }
     .sidebar { padding-top: 8px; }
     .side-label { margin: 0 0 13px 12px; color: #94a19a; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
     .nav-list { display: grid; gap: 5px; }
@@ -92,7 +163,18 @@
     .welcome-copy { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
     .date-chip { flex: 0 0 auto; display: flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 999px; color: #6c7a73; background: rgba(255,254,250,.75); font-size: 11px; }
     .date-chip svg { width: 14px; height: 14px; }
-    .hero { min-height: 296px; position: relative; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) 33%; align-items: center; border: 1px solid #e0eee3; border-radius: 20px; background: #e8f4eb; box-shadow: var(--shadow); }
+    .hero {
+      min-height: 296px;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 33%;
+      align-items: center;
+      border: 1px solid rgba(207, 229, 214, 0.9);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(216, 240, 227, 0.96), rgba(232, 241, 250, 0.9));
+      box-shadow: 0 20px 50px rgba(58, 88, 71, 0.08);
+    }
     .hero-copy { position: relative; z-index: 1; max-width: 650px; padding: 32px 34px; }
     .hero-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid rgba(86,137,106,.15); border-radius: 999px; background: rgba(255,255,255,.5); color: #547b60; font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
     .hero-tag svg { width: 13px; height: 13px; }
@@ -105,7 +187,14 @@
     .hero-decor::after { content: "✦"; position: absolute; top: 5px; left: 9px; color: #d8ac4c; font-size: 16px; }
     .companion { position: absolute; z-index: 2; right: 29%; bottom: 19px; width: 54px; height: 54px; display: grid; place-items: center; border: 4px solid rgba(255,255,255,.82); border-radius: 50%; background: #f4d89d; box-shadow: 0 8px 20px rgba(56,93,75,.12); font-size: 26px; animation: bob 3.8s ease-in-out infinite; }
     .search-section { position: relative; z-index: 3; margin: -31px 28px 0; }
-    .search-shell { padding: 8px; border: 1px solid #e5e9df; border-radius: 16px; background: var(--white); box-shadow: 0 12px 30px rgba(55,82,67,.1); }
+    .search-shell {
+      padding: 8px;
+      border: 1px solid rgba(214, 226, 218, 0.9);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.76);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 35px rgba(55,82,67,.08);
+    }
     .search-form { min-height: 54px; display: flex; align-items: center; gap: 12px; padding-left: 12px; }
     .search-form > svg { flex: 0 0 auto; width: 19px; height: 19px; color: #7e9a87; }
     .search-form input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font-size: 14px; }
@@ -116,18 +205,18 @@
     .search-hint { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin: 11px 3px 0; color: #819087; font-size: 10px; }
     .suggestion { padding: 5px 9px; border: 1px solid #e9eee8; border-radius: 999px; background: rgba(255,254,250,.8); color: #68786f; cursor: pointer; font-size: 10px; transition: background .15s ease; }
     .suggestion:hover { background: var(--mint); }
-    .response { display: none; margin: 14px 28px 0; padding: 17px 18px; border: 1px solid #dcebe0; border-radius: 14px; background: #f5fbf5; animation: rise .25s ease both; }
+    .response { display: none; margin: 0 28px 14px; padding: 18px 20px; border: 1px solid #cfe7d4; border-radius: 16px; background: linear-gradient(135deg, #edf9f0 0%, #f9fdf9 100%); box-shadow: 0 12px 30px rgba(45,96,72,.08); animation: rise .25s ease both; }
     .response.visible { display: block; }
-    .response.fallback { border-color: #efe5c9; background: #fffbee; }
+    .response.fallback { border-color: #f0e2b0; background: linear-gradient(135deg, #fff9e8 0%, #fffdf6 100%); }
     .response-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .response-label { display: flex; align-items: center; gap: 7px; color: #52735d; font-size: 11px; font-weight: 700; }
+    .response-label { display: flex; align-items: center; gap: 7px; color: #2d6b4e; font-size: 11px; font-weight: 700; }
     .response-label svg { width: 15px; height: 15px; }
-    .response-close { width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: #809087; cursor: pointer; }
-    .response-close:hover { background: #eaf3eb; }
+    .response-close { width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 8px; background: rgba(255,255,255,.5); color: #5d786a; cursor: pointer; }
+    .response-close:hover { background: rgba(255,255,255,.8); }
     .response-close svg { width: 15px; height: 15px; }
-    .response h3 { margin: 8px 0 4px; font-size: 14px; }
-    .response p { margin: 5px 0; color: #617168; font-size: 12px; }
-    .response cite { display: block; margin-top: 10px; color: #70867a; font-size: 10px; font-style: normal; }
+    .response h3 { margin: 10px 0 6px; font-size: 16px; color: #1b4d38; }
+    .response p { margin: 5px 0; color: #355449; font-size: 12px; line-height: 1.6; }
+    .response cite { display: block; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(90,126,103,.14); color: #5d7569; font-size: 10px; font-style: normal; }
     .disclaimer { display: flex; align-items: flex-start; gap: 7px; margin: 12px 3px 0; color: #88958d; font-size: 10px; }
     .disclaimer svg { flex: 0 0 auto; width: 13px; height: 13px; margin-top: 1px; }
     .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin: 36px 0 15px; }
@@ -181,8 +270,10 @@
     .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 12px; color: #6f8175; font-size: 9px; }
     .card-bottom span:last-child { display: flex; align-items: center; gap: 4px; }
     .card-bottom svg { width: 12px; height: 12px; }
-    .below-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(220px, .8fr); gap: 14px; margin-top: 30px; }
-    .daily-note, .quick-panel { min-height: 118px; padding: 17px 19px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,254,250,.8); }
+    .below-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(220px, .8fr) minmax(230px, .95fr); gap: 14px; margin-top: 30px; }
+    .daily-note, .quick-panel, .advocate-panel { min-height: 118px; padding: 17px 19px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,254,250,.8); }
+    .advocate-panel { display: flex; flex-direction: column; gap: 10px; background: linear-gradient(135deg, rgba(232,243,250,.9), rgba(237,250,243,.9)); border-color: rgba(151,188,194,.3); }
+    .advocate-panel .primary-button { width: 100%; margin-top: 4px; }
     .daily-note { display: flex; align-items: center; gap: 16px; background: #fbf3da; border-color: #f1e8c9; }
     .note-icon { width: 43px; height: 43px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 14px; background: rgba(255,255,255,.62); color: #a38242; }
     .note-icon svg { width: 21px; height: 21px; }
@@ -218,6 +309,10 @@
     @keyframes orbit { to { transform: rotate(360deg); } }
     @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes floatGlow {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      100% { transform: translate3d(2.5rem, -1.5rem, 0) scale(1.16); }
+    }
     @media (max-width: 1050px) {
       .layout { padding-right: 28px; padding-left: 28px; grid-template-columns: 160px minmax(0, 1fr); gap: 26px; }
       .law-grid { grid-auto-columns: 210px; }
@@ -301,6 +396,562 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     }
+    .login-page {
+      --login-gold: #dfc17b;
+      --login-muted: #a9b9b4;
+      min-height: 100svh;
+      color: #f5f3eb;
+      background:
+        linear-gradient(90deg, rgba(8,18,24,.72), rgba(8,18,24,.56) 48%, rgba(7,19,25,.76)),
+        linear-gradient(0deg, rgba(7,17,22,.56), rgba(7,17,22,.2)),
+        url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2200&q=90") center 48% / cover fixed,
+        #101c21;
+      animation: libraryDrift 36s ease-in-out infinite alternate;
+      isolation: isolate;
+    }
+    .login-page::before, .login-page::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+    }
+    .login-page::before {
+      background:
+        radial-gradient(ellipse at 24% 82%, rgba(26,94,72,.34), transparent 45%),
+        radial-gradient(ellipse at 78% 34%, rgba(21,81,99,.25), transparent 38%),
+        linear-gradient(110deg, rgba(6,15,21,.18), transparent 55%, rgba(5,15,21,.22));
+    }
+    .login-page::after {
+      z-index: 0;
+      opacity: .38;
+      background-image:
+        radial-gradient(1.5px 1.5px at 24px 38px, rgba(255,223,157,.8) 45%, transparent 65%),
+        radial-gradient(1px 1px at 106px 112px, rgba(223,244,228,.76) 45%, transparent 65%),
+        radial-gradient(1px 1px at 178px 58px, rgba(255,223,157,.65) 45%, transparent 65%),
+        radial-gradient(1px 1px at 74px 174px, rgba(223,244,228,.62) 45%, transparent 65%);
+      background-size: 230px 210px;
+      animation: dustDrift 28s linear infinite;
+    }
+    .login-topbar, .login-main, .login-footer { position: relative; z-index: 1; }
+    .login-topbar { width: min(1440px, 100%); height: 84px; padding: 0 52px; }
+    .login-page .brand { color: #f7f3e8; }
+    .login-page .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(223,193,123,.5);
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(223,193,123,.2), rgba(22,76,62,.52));
+      color: var(--login-gold);
+      box-shadow: inset 0 0 18px rgba(223,193,123,.12), 0 0 25px rgba(223,193,123,.09);
+    }
+    .login-page .brand-mark svg { filter: drop-shadow(0 0 7px rgba(232,194,113,.55)); }
+    .login-page .brand-copy span { color: #aebdb5; }
+    .login-context { color: #c0cbc5; letter-spacing: .04em; }
+    .login-context svg { color: var(--login-gold); }
+    .login-main {
+      width: min(1440px, 100%);
+      min-height: min(760px, calc(100svh - 140px));
+      grid-template-columns: minmax(0, 1.08fr) minmax(370px, .82fr);
+      gap: clamp(34px, 7vw, 112px);
+      padding: 20px 52px 36px;
+    }
+    .login-art {
+      min-height: 560px;
+      height: min(700px, 74vh);
+      border: 1px solid rgba(232,218,176,.17);
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(8,24,28,.12), rgba(8,24,28,.22));
+      box-shadow: inset 0 1px rgba(255,255,255,.08), 0 24px 80px rgba(0,0,0,.2);
+      animation: panelBreathe 10s ease-in-out infinite;
+    }
+    .login-art::after {
+      z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(9,20,25,.08) 4%, rgba(9,20,25,.06) 36%, rgba(8,20,24,.81) 100%),
+        linear-gradient(120deg, rgba(12,40,37,.3), transparent 64%);
+    }
+    .login-art-image { opacity: .12; filter: brightness(.55) saturate(.72); }
+    .login-art-copy { right: 48px; bottom: 47px; left: 48px; max-width: 570px; }
+    .login-art-kicker {
+      border-color: rgba(226,199,137,.35);
+      background: rgba(14,35,35,.56);
+      color: #e8d39d;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 25px rgba(214,183,112,.08);
+    }
+    .login-art-kicker svg { color: #f1d792; }
+    .login-art-copy h1 {
+      max-width: 550px;
+      margin: 19px 0 13px;
+      color: #f3e8c7;
+      font-size: clamp(42px, 4.5vw, 65px);
+      line-height: 1.04;
+      text-shadow: 0 3px 30px rgba(0,0,0,.55), 0 0 1px #fff5d6;
+      animation: textAssemble .95s cubic-bezier(.2,.75,.25,1) both;
+    }
+    .login-art-copy p {
+      max-width: 440px;
+      color: #d0d8d0;
+      font-size: 14px;
+      line-height: 1.8;
+      animation: revealUp .8s .35s ease both;
+    }
+    .login-art-caption { color: #ddca94; letter-spacing: .1em; animation: revealUp .8s .55s ease both; }
+    .login-art-caption svg { color: #dfc17b; }
+    .login-float {
+      width: 62px;
+      height: 62px;
+      border: 1px solid rgba(230,209,153,.5);
+      border-radius: 19px;
+      background: linear-gradient(145deg, rgba(210,231,218,.18), rgba(26,72,70,.55));
+      color: #e9d391;
+      box-shadow: inset 0 0 22px rgba(211,226,209,.12), 0 14px 40px rgba(0,0,0,.27), 0 0 25px rgba(208,184,117,.12);
+      backdrop-filter: blur(12px);
+      transform-style: preserve-3d;
+      animation: crystalFloat 7s ease-in-out infinite;
+    }
+    .login-float svg { width: 25px; height: 25px; filter: drop-shadow(0 0 7px rgba(220,202,147,.45)); }
+    .login-float.books { top: 17%; left: 12%; background-color: rgba(30,90,74,.38); }
+    .login-float.justice { top: 12%; right: 14%; background-color: rgba(117,87,41,.28); animation-delay: -2.2s; }
+    .login-float.school { top: 43%; right: 9%; background-color: rgba(29,87,103,.35); animation-delay: -4.1s; }
+    .login-panel {
+      width: min(100%, 460px);
+      padding: clamp(28px, 4vw, 44px);
+      border: 1px solid rgba(218,230,215,.2);
+      border-radius: 25px;
+      background: linear-gradient(145deg, rgba(21,39,42,.77), rgba(13,29,34,.7));
+      box-shadow: inset 0 1px rgba(255,255,255,.1), 0 28px 90px rgba(0,0,0,.36), 0 0 55px rgba(34,114,94,.08);
+      backdrop-filter: blur(22px) saturate(125%);
+      animation: panelBreathe 10s ease-in-out infinite;
+    }
+    .login-greeting { color: #d8c184; letter-spacing: .16em; }
+    .login-panel h2 {
+      margin: 12px 0 8px;
+      color: #f1eee2;
+      font-size: 39px;
+      background: linear-gradient(100deg, #f5f0e2 18%, #d8c17e 42%, #fff8e8 56%, #e6e0d0 74%);
+      background-size: 220% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: liquidShimmer 7s ease-in-out infinite;
+    }
+    .login-panel > p { margin-bottom: 25px; color: var(--login-muted); line-height: 1.75; }
+    .login-page .auth-tabs { padding: 4px; border: 1px solid rgba(223,235,223,.1); background: rgba(4,16,22,.42); }
+    .login-page .auth-tab { color: #a8b7b0; transition: color .2s ease, background .2s ease, box-shadow .2s ease; }
+    .login-page .auth-tab.active {
+      border: 1px solid rgba(216,192,128,.24);
+      background: linear-gradient(135deg, rgba(38,92,73,.7), rgba(29,70,77,.68));
+      color: #f0e5c6;
+      box-shadow: inset 0 1px rgba(255,255,255,.09), 0 3px 14px rgba(0,0,0,.2);
+    }
+    .login-page .auth-form { gap: 15px; margin-top: 21px; }
+    .login-page .auth-form label { color: #c0cbc4; font-size: 11px; letter-spacing: .02em; }
+    .login-page .auth-form label:nth-child(1) { animation: revealUp .55s .2s both; }
+    .login-page .auth-form label:nth-child(2) { animation: revealUp .55s .38s both; }
+    .login-page .auth-form input {
+      height: 49px;
+      padding: 0 14px;
+      border: 1px solid rgba(195,216,209,.2);
+      border-radius: 11px;
+      background: rgba(5,18,24,.45);
+      color: #f2f2e9;
+      box-shadow: inset 0 1px 5px rgba(0,0,0,.16);
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+    .login-page .auth-form input::placeholder { color: #748781; }
+    .login-page .auth-form input:hover { border-color: rgba(151,205,185,.42); }
+    .login-page .auth-form input:focus {
+      border-color: rgba(100,202,170,.8);
+      outline: 0;
+      background: rgba(7,27,31,.78);
+      box-shadow: 0 0 0 3px rgba(68,174,139,.13), 0 0 24px rgba(58,185,148,.13);
+    }
+    .login-page .auth-form .primary-button {
+      position: relative;
+      min-height: 51px;
+      margin-top: 5px;
+      overflow: hidden;
+      border: 1px solid rgba(182,224,194,.28);
+      border-radius: 12px;
+      background: linear-gradient(105deg, #12684d, #146b67 54%, #254d79);
+      color: #f6f2df;
+      font-size: 13px;
+      letter-spacing: .02em;
+      box-shadow: inset 0 1px rgba(255,255,255,.2), 0 10px 27px rgba(3,22,26,.28), 0 0 21px rgba(49,173,133,.13);
+      transition: box-shadow .3s ease, transform .3s ease, filter .3s ease;
+    }
+    .login-page .auth-form .primary-button::before {
+      content: "";
+      position: absolute;
+      inset: -80% auto -80% -35%;
+      width: 26%;
+      transform: rotate(22deg);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent);
+      transition: left .65s ease;
+    }
+    .login-page .auth-form .primary-button:hover {
+      background: linear-gradient(105deg, #167a59, #168078 54%, #315f91);
+      transform: translateY(-2px);
+      filter: saturate(1.15);
+      box-shadow: inset 0 1px rgba(255,255,255,.28), 0 12px 34px rgba(3,22,26,.35), 0 0 32px rgba(55,210,156,.34);
+    }
+    .login-page .auth-form .primary-button:hover::before { left: 115%; }
+    .login-page .auth-form .primary-button svg { transition: transform .25s ease; }
+    .login-page .auth-form .primary-button:hover svg { transform: translateX(4px); }
+    .login-page .auth-footnote { margin-top: 17px; color: #84958e; }
+    .login-footer { color: #9eada5; }
+    .login-footer span:first-child { color: #d0c08f; }
+    @keyframes libraryDrift { from { background-position: center 48%; } to { background-position: center 52%; } }
+    @keyframes dustDrift { to { background-position: 230px -210px; } }
+    @keyframes panelBreathe { 0%, 100% { box-shadow: inset 0 1px rgba(255,255,255,.1), 0 28px 90px rgba(0,0,0,.36), 0 0 45px rgba(34,114,94,.07); } 50% { box-shadow: inset 0 1px rgba(255,255,255,.13), 0 31px 95px rgba(0,0,0,.39), 0 0 60px rgba(34,144,111,.13); } }
+    @keyframes crystalFloat { 0%, 100% { transform: translateY(0) rotateY(-12deg) rotateZ(-4deg); } 50% { transform: translateY(-10px) rotateY(14deg) rotateZ(4deg); } }
+    @keyframes textAssemble { from { opacity: 0; clip-path: inset(0 100% 0 0); filter: blur(7px); transform: translateY(10px); } to { opacity: 1; clip-path: inset(0 0 0 0); filter: blur(0); transform: translateY(0); } }
+    @keyframes revealUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes liquidShimmer { 0%, 100% { background-position: 100% 50%; } 50% { background-position: 0 50%; } }
+    @media (max-width: 1050px) and (min-width: 721px) {
+      .login-topbar { padding-right: 32px; padding-left: 32px; }
+      .login-main { grid-template-columns: minmax(0, 1fr) minmax(340px, .92fr); gap: 32px; padding-right: 32px; padding-left: 32px; }
+      .login-art-copy { right: 30px; left: 30px; }
+      .login-panel { padding: 30px; }
+    }
+    @media (max-width: 720px) {
+      .login-page { background-attachment: scroll; animation: none; }
+      .login-topbar { height: 66px; padding: 0 20px; }
+      .login-main { min-height: 0; gap: 15px; padding: 9px 18px 24px; }
+      .login-art { height: 290px; min-height: 0; border-radius: 22px; }
+      .login-art-copy { right: 22px; bottom: 22px; left: 22px; }
+      .login-art-copy h1 { max-width: 390px; font-size: clamp(32px, 8vw, 42px); }
+      .login-art-copy p { max-width: 380px; font-size: 12px; }
+      .login-art-caption { display: none; }
+      .login-float { width: 47px; height: 47px; border-radius: 15px; }
+      .login-float svg { width: 20px; height: 20px; }
+      .login-float.books { top: 17px; left: 18px; }
+      .login-float.justice { top: 17px; right: 18px; }
+      .login-float.school { top: 82px; right: 17px; }
+      .login-panel { width: min(100%, 500px); padding: 25px 22px; border-radius: 20px; }
+      .login-panel h2 { font-size: 32px; }
+      .login-panel > p { margin-bottom: 18px; }
+      .login-footer { padding: 0 20px 14px; font-size: 9px; }
+    }
+    @media (max-width: 390px) {
+      .login-main { padding-right: 13px; padding-left: 13px; }
+      .login-art { height: 265px; }
+      .login-art-copy h1 { font-size: 30px; }
+      .login-panel { padding: 22px 18px; }
+      .login-footer { gap: 7px; padding-right: 14px; padding-left: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .login-page, .login-page::after, .login-art, .login-panel,
+      .login-art-copy h1, .login-art-copy p, .login-art-caption,
+      .login-float, .login-page .auth-form label, .login-panel h2 {
+        animation: none !important;
+      }
+    }
+    #portal {
+      --ink: #f1efe5;
+      --muted: #aab9b2;
+      --line: rgba(210,226,214,.15);
+      --white: #15282b;
+      --mint: #244c3d;
+      --mint-strong: #b8d8c1;
+      --sky: #203f4a;
+      --sky-strong: #9dcbd4;
+      position: relative;
+      isolation: isolate;
+      color: #f1efe5;
+      background:
+        linear-gradient(90deg, rgba(7,17,22,.9), rgba(9,22,25,.82) 52%, rgba(7,17,22,.91)),
+        linear-gradient(0deg, rgba(7,17,22,.82), rgba(7,17,22,.4)),
+        url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2200&q=90") center / cover fixed,
+        #101c21;
+    }
+    #portal .topbar {
+      border-bottom-color: rgba(218,230,215,.13);
+      background: rgba(10,24,28,.78);
+      box-shadow: 0 8px 30px rgba(0,0,0,.14);
+      backdrop-filter: blur(20px) saturate(125%);
+    }
+    #portal .brand { color: #f5f1e5; }
+    #portal .brand-mark {
+      border: 1px solid rgba(223,193,123,.43);
+      background: linear-gradient(145deg, rgba(223,193,123,.18), rgba(22,76,62,.58));
+      color: #dfc17b;
+      box-shadow: inset 0 0 17px rgba(223,193,123,.1), 0 0 22px rgba(223,193,123,.07);
+    }
+    #portal .brand-copy span { color: #9eafa7; }
+    #portal .jurisdiction { color: #c1cdc5; }
+    #portal .jurisdiction .dot { background: #69c49a; box-shadow: 0 0 12px rgba(105,196,154,.65); }
+    #portal .avatar-button { color: #f0ead8; }
+    #portal .avatar { border: 1px solid rgba(223,193,123,.28); background: rgba(223,193,123,.15); }
+    #portal .avatar-label small { color: #9eafa7; }
+    #portal .layout { gap: 34px; }
+    #portal .sidebar { position: sticky; top: 98px; align-self: start; }
+    #portal .side-label { color: #d2bd82; }
+    #portal .nav-list { gap: 7px; }
+    #portal .nav-link { color: #a8b8b0; }
+    #portal .nav-link:hover {
+      background: rgba(169,205,184,.1);
+      color: #f0ead8;
+      transform: translateX(2px);
+    }
+    #portal .nav-link.active {
+      border: 1px solid rgba(198,220,192,.15);
+      background: linear-gradient(105deg, rgba(34,94,68,.62), rgba(31,76,77,.48));
+      color: #e9dfbf;
+      box-shadow: inset 0 1px rgba(255,255,255,.07), 0 6px 20px rgba(0,0,0,.12);
+    }
+    #portal .nav-link svg { color: #a7c7ae; }
+    #portal .sidebar-note { border-top-color: rgba(210,226,214,.16); color: #9eafa7; }
+    #portal .sidebar-note strong { color: #e0d4ad; }
+    #portal .eyebrow { color: #d6c083; }
+    #portal .eyebrow svg { color: #e4c875; filter: drop-shadow(0 0 7px rgba(226,193,107,.5)); }
+    #portal .welcome-row h1 {
+      color: #f1e9d1;
+      text-shadow: 0 3px 24px rgba(0,0,0,.38);
+      animation: revealUp .7s ease both;
+    }
+    #portal .welcome-copy { color: #aab9b2; }
+    #portal .date-chip {
+      border-color: rgba(223,193,123,.22);
+      background: rgba(16,35,37,.66);
+      color: #d8c88e;
+      backdrop-filter: blur(12px);
+    }
+    #portal .date-chip svg { color: #dfc17b; }
+    #portal .hero {
+      min-height: 310px;
+      border-color: rgba(213,224,199,.18);
+      background:
+        radial-gradient(ellipse at 20% 100%, rgba(23,100,73,.35), transparent 55%),
+        linear-gradient(115deg, rgba(13,34,35,.94), rgba(12,32,38,.76) 61%, rgba(10,27,33,.66));
+      box-shadow: inset 0 1px rgba(255,255,255,.1), 0 22px 55px rgba(0,0,0,.24);
+      animation: panelBreathe 12s ease-in-out infinite;
+    }
+    #portal .hero-copy { padding: 36px 38px; }
+    #portal .hero-tag {
+      border-color: rgba(220,197,139,.29);
+      background: rgba(16,43,40,.57);
+      color: #e3d39e;
+      backdrop-filter: blur(10px);
+    }
+    #portal .hero-tag svg { color: #e3c878; }
+    #portal .hero h2 {
+      color: #f0e7cf;
+      text-shadow: 0 2px 20px rgba(0,0,0,.34);
+      animation: revealUp .7s .12s both;
+    }
+    #portal .hero-copy > p { color: #bac9c0; line-height: 1.75; }
+    #portal .hero-image-wrap::before {
+      width: 72%;
+      background: linear-gradient(90deg, rgba(13,34,35,.98), rgba(13,34,35,.5) 36%, rgba(13,34,35,.08) 100%);
+    }
+    #portal .hero-image {
+      mix-blend-mode: screen;
+      opacity: .42;
+      filter: saturate(.72) brightness(.68) contrast(1.1);
+    }
+    #portal .hero-decor { border-color: rgba(228,199,123,.3); }
+    #portal .hero-decor::after { color: #e0c475; text-shadow: 0 0 12px rgba(224,196,117,.7); }
+    #portal .companion {
+      border: 1px solid rgba(230,210,153,.48);
+      background: linear-gradient(145deg, rgba(51,105,78,.85), rgba(20,61,65,.9));
+      box-shadow: inset 0 1px rgba(255,255,255,.2), 0 9px 26px rgba(0,0,0,.3), 0 0 24px rgba(194,163,89,.17);
+    }
+    #portal .search-shell {
+      padding: 8px;
+      border-color: rgba(214,230,215,.22);
+      background: rgba(13,31,35,.82);
+      box-shadow: 0 18px 42px rgba(0,0,0,.28), 0 0 30px rgba(34,115,86,.08);
+      backdrop-filter: blur(20px) saturate(125%);
+    }
+    #portal .search-form { min-height: 58px; }
+    #portal .search-form > svg { color: #b8cfaa; }
+    #portal .search-form input { color: #f1efe5; }
+    #portal .search-form input::placeholder { color: #8b9c95; }
+    #portal .search-form input:focus-visible { outline: 0; }
+    #portal .search-form button, #portal .primary-button {
+      border: 1px solid rgba(182,224,194,.24);
+      background: linear-gradient(105deg, #12684d, #146b67 54%, #254d79);
+      color: #f6f2df;
+      box-shadow: inset 0 1px rgba(255,255,255,.14), 0 8px 21px rgba(0,0,0,.19);
+      transition: box-shadow .25s ease, transform .25s ease, filter .25s ease;
+    }
+    #portal .search-form button:hover, #portal .primary-button:hover {
+      background: linear-gradient(105deg, #167a59, #168078 54%, #315f91);
+      transform: translateY(-2px);
+      filter: saturate(1.12);
+      box-shadow: inset 0 1px rgba(255,255,255,.2), 0 10px 28px rgba(0,0,0,.25), 0 0 24px rgba(55,210,156,.22);
+    }
+    #portal .search-hint { color: #a1b0a8; }
+    #portal .suggestion {
+      border-color: rgba(204,223,208,.17);
+      background: rgba(16,37,40,.72);
+      color: #c2cec4;
+    }
+    #portal .suggestion:hover { border-color: rgba(179,220,189,.35); background: rgba(35,82,64,.74); }
+    #portal .disclaimer { color: #9eada6; line-height: 1.6; }
+    #portal .disclaimer svg { color: #cdb777; }
+    #portal .response {
+      border-color: rgba(118,193,151,.3);
+      background: linear-gradient(135deg, rgba(22,68,52,.94), rgba(17,43,45,.95));
+      box-shadow: 0 12px 32px rgba(0,0,0,.24);
+      color: #e8eee3;
+    }
+    #portal .response.fallback {
+      border-color: rgba(224,192,120,.32);
+      background: linear-gradient(135deg, rgba(78,61,31,.95), rgba(41,39,31,.95));
+    }
+    #portal .response-label, #portal .response h3 { color: #e5d59f; }
+    #portal .response-close { background: rgba(255,255,255,.08); color: #d6e0d6; }
+    #portal .response-close:hover { background: rgba(255,255,255,.15); }
+    #portal .response p { color: #d2ddd5; }
+    #portal .response cite { border-top-color: rgba(220,233,217,.15); color: #aebdb4; }
+    #portal .section-kicker { color: #d0bd82; }
+    #portal .section-heading h2 { color: #f0e9d5; }
+    #portal .section-heading > a { color: #b8d3bd; }
+    #portal .section-heading > a:hover { color: #f2dfaa; }
+    #portal .filter-button {
+      border-color: rgba(210,226,214,.16);
+      background: rgba(15,33,36,.56);
+      color: #aab9b0;
+    }
+    #portal .filter-button:hover { background: rgba(36,75,59,.67); }
+    #portal .filter-button.selected {
+      border-color: rgba(222,196,126,.35);
+      background: linear-gradient(105deg, rgba(36,91,65,.86), rgba(27,70,70,.78));
+      color: #eee2bc;
+    }
+    #portal .deck-controls .icon-button, #portal .icon-button {
+      border-color: rgba(211,226,214,.18);
+      background: rgba(17,39,41,.82);
+      color: #c5d3c8;
+    }
+    #portal .icon-button:hover { background: rgba(37,82,65,.9); color: #f1e5c2; }
+    #portal .law-grid {
+      border-color: rgba(210,226,214,.16);
+      background-color: rgba(10,27,31,.74);
+      background-image:
+        radial-gradient(ellipse at 50% 15%, rgba(38,91,69,.18), transparent 60%),
+        linear-gradient(rgba(160,197,169,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(160,197,169,.045) 1px, transparent 1px);
+      box-shadow: inset 0 1px rgba(255,255,255,.04), 0 14px 40px rgba(0,0,0,.14);
+      scrollbar-color: #638b75 transparent;
+    }
+    #portal .law-grid::before { color: rgba(198,218,187,.11); }
+    #portal .law-grid::after { color: #a9bfa9; }
+    #portal .law-card {
+      border-color: rgba(222,231,208,.2);
+      background: linear-gradient(155deg, rgba(25,53,48,.97), rgba(17,39,42,.98));
+      color: #f0ecdf;
+      box-shadow: 0 14px 30px rgba(0,0,0,.27), inset 0 1px rgba(255,255,255,.07);
+    }
+    #portal .law-card:hover {
+      box-shadow: 0 20px 38px rgba(0,0,0,.35), 0 0 28px rgba(61,153,112,.13), inset 0 1px rgba(255,255,255,.1);
+    }
+    #portal .law-card.mint-card { background: linear-gradient(155deg, rgba(28,72,54,.98), rgba(17,42,39,.99)); }
+    #portal .law-card.sky-card { background: linear-gradient(155deg, rgba(28,66,78,.98), rgba(17,39,45,.99)); }
+    #portal .law-card.rose-card { background: linear-gradient(155deg, rgba(83,49,48,.98), rgba(43,31,35,.99)); }
+    #portal .law-card.lilac-card { background: linear-gradient(155deg, rgba(67,54,81,.98), rgba(37,32,48,.99)); }
+    #portal .law-card.butter-card { background: linear-gradient(155deg, rgba(83,69,39,.98), rgba(43,38,29,.99)); }
+    #portal .law-card-art {
+      border-bottom-color: rgba(230,231,204,.15);
+      background: repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 9px, transparent 9px 19px), rgba(4,18,23,.2);
+    }
+    #portal .law-card-art::before { border-color: rgba(226,207,152,.24); }
+    #portal .law-card-index, #portal .law-card-caption { color: #d5c487; }
+    #portal .law-card-art .law-icon {
+      border-color: rgba(224,210,163,.2);
+      background: rgba(14,32,34,.76);
+      color: #dfd09b;
+      box-shadow: 0 6px 19px rgba(0,0,0,.2), inset 0 1px rgba(255,255,255,.08);
+    }
+    #portal .law-icon {
+      border-color: rgba(218,228,205,.17);
+      background: rgba(218,231,209,.08);
+      color: #d6c58e;
+    }
+    #portal .save-button { color: #c4d0c4; }
+    #portal .save-button:hover, #portal .save-button.saved { background: rgba(255,255,255,.12); color: #f1c2a8; }
+    #portal .law-type { background: rgba(220,230,212,.1); color: #d0c590; }
+    #portal .law-card p { color: #bfcbc1; }
+    #portal .card-bottom { color: #acbdb1; }
+    #portal .below-grid { gap: 15px; }
+    #portal .daily-note, #portal .quick-panel, #portal .advocate-panel {
+      border-color: rgba(210,226,214,.16);
+      background: linear-gradient(145deg, rgba(20,42,43,.88), rgba(14,31,35,.9));
+      box-shadow: inset 0 1px rgba(255,255,255,.055), 0 10px 28px rgba(0,0,0,.13);
+      backdrop-filter: blur(12px);
+    }
+    #portal .daily-note { border-color: rgba(218,190,119,.2); background: linear-gradient(120deg, rgba(70,57,32,.76), rgba(30,39,36,.9)); }
+    #portal .note-icon { background: rgba(228,205,148,.12); color: #e1c579; }
+    #portal .daily-note h3, #portal .quick-panel h3 { color: #eee4c8; }
+    #portal .daily-note p, #portal .quick-panel p { color: #aebdb3; line-height: 1.6; }
+    #portal .advocate-panel { border-color: rgba(130,184,168,.2); }
+    #portal .advocate-panel .section-kicker { color: #d4c184 !important; }
+    #portal .advocate-panel p { color: #b5c5ba !important; }
+    #portal .advocate-panel > div:nth-child(2) > div:nth-child(2) > div:first-child { color: #eadfbe !important; }
+    #portal .advocate-panel > div:nth-child(2) > div:nth-child(2) > div:last-child { color: #a9b9b0 !important; }
+    #portal .quick-panel .icon-button { background: rgba(39,88,65,.82); }
+    #portal .footer { border-top-color: rgba(210,226,214,.15); color: #93a49b; }
+    #portal .footer a { color: #c5d6b1; }
+    #portal .footer a:hover { color: #f1dfad; }
+    #portal .toast {
+      border-color: rgba(209,229,210,.18);
+      background: rgba(16,38,40,.96);
+      color: #e1e7d8;
+      box-shadow: 0 14px 38px rgba(0,0,0,.32);
+      backdrop-filter: blur(15px);
+    }
+    .modal-backdrop { background: rgba(3,10,14,.7); }
+    #portal ~ .modal-backdrop { background: rgba(3,10,14,.74); }
+    .detail-modal {
+      border-color: rgba(211,226,207,.2);
+      background: linear-gradient(145deg, #193337, #102528);
+      color: #f0ebdd;
+      box-shadow: 0 28px 90px rgba(0,0,0,.5);
+    }
+    .detail-modal h2 { color: #eee4c9; }
+    .detail-modal .detail-summary { color: #c1cdc2; }
+    .detail-meta { border-top-color: rgba(210,226,214,.16); color: #aab9b1; }
+    .detail-source { color: #c6d6af; }
+    .detail-modal .law-type { background: rgba(220,230,212,.1); color: #d5c68f; }
+    .detail-modal .law-icon { background: rgba(218,231,209,.08); color: #dfca88; }
+    .detail-modal .modal-close { color: #d4dfd5; }
+    @media (max-width: 1050px) and (min-width: 721px) {
+      #portal .layout { gap: 26px; }
+      #portal .hero-copy { padding: 30px; }
+    }
+    @media (max-width: 720px) {
+      #portal { background-attachment: scroll; }
+      #portal .topbar { background: rgba(10,24,28,.92); }
+      #portal .sidebar {
+        border-bottom-color: rgba(210,226,214,.15);
+        background: rgba(10,25,29,.94);
+      }
+      #portal .nav-list { gap: 4px; }
+      #portal .nav-link { border: 1px solid transparent; }
+      #portal .welcome-row h1 { font-size: 30px; }
+      #portal .hero {
+        min-height: 270px;
+        background:
+          radial-gradient(ellipse at 100% 100%, rgba(25,100,76,.26), transparent 52%),
+          linear-gradient(115deg, rgba(13,34,35,.96), rgba(12,32,38,.8));
+      }
+      #portal .hero-copy { padding: 24px 21px 86px; }
+      #portal .hero-image-wrap::before { background: linear-gradient(90deg, rgba(13,34,35,.96), rgba(13,34,35,.45) 58%, transparent); }
+      #portal .hero-image { opacity: .32; }
+      #portal .search-section { margin-right: 12px; margin-left: 12px; }
+      #portal .law-grid {
+        background-color: rgba(10,27,31,.84);
+        background-image: linear-gradient(rgba(160,197,169,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(160,197,169,.04) 1px, transparent 1px);
+      }
+      #portal .below-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #portal .hero, #portal .welcome-row h1 { animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -314,7 +965,7 @@
     </header>
     <main class="login-main">
       <section class="login-art" aria-label="Books, education, and justice">
-        <img class="login-art-image" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1400&q=85" alt="Shelves of books in a library">
+        <img class="login-art-image" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1400&q=85" alt="" aria-hidden="true">
         <span class="login-float books" aria-hidden="true"><i data-lucide="book-open"></i></span>
         <span class="login-float justice" aria-hidden="true"><i data-lucide="scale"></i></span>
         <span class="login-float school" aria-hidden="true"><i data-lucide="landmark"></i></span>
@@ -333,9 +984,9 @@
           <button class="auth-tab active" type="button" role="tab" aria-selected="true" data-auth-mode="login">Log in</button>
           <button class="auth-tab" type="button" role="tab" aria-selected="false" data-auth-mode="signup">Sign up</button>
         </div>
-        <form class="auth-form" id="auth-form">
-          <label>Email address<input id="auth-email" type="email" name="email" autocomplete="email" placeholder="you@school.org" required></label>
-          <label>Password<input type="password" name="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8" required></label>
+        <form class="auth-form" id="auth-form" novalidate>
+          <label>Email address<input id="auth-email" type="email" name="email" autocomplete="email" placeholder="you@school.org"></label>
+          <label>Password<input type="password" name="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8"></label>
           <button class="primary-button" type="submit" id="auth-submit">Enter portal <i data-lucide="arrow-right"></i></button>
         </form>
         <div class="auth-footnote">Preview only · Sign-in is not connected to an account service</div>
@@ -390,25 +1041,25 @@
             <img class="hero-image" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80" alt="">
           </div>
           <div class="hero-decor" aria-hidden="true"></div>
-          <div class="companion" title="Mitra, your education law guide" aria-label="Mitra, your education law guide">📚</div>
+          <div class="companion" title="Education law guide" aria-label="Education law guide">📚</div>
         </section>
 
         <section class="search-section" aria-label="Ask the legal copilot">
+          <div class="response" id="response" role="status" aria-live="polite">
+            <div class="response-head"><div class="response-label"><i data-lucide="messages-square"></i><span id="response-label">Quick answer</span></div><button class="response-close" id="close-response" type="button" aria-label="Close response"><i data-lucide="x"></i></button></div>
+            <h3 id="response-title"></h3><p id="response-body"></p><cite id="response-cite"></cite>
+          </div>
           <div class="search-shell">
             <form class="search-form" id="search-form">
               <i data-lucide="search" aria-hidden="true"></i>
               <input id="legal-query" type="search" autocomplete="off" placeholder="Ask about a school right, act, or guideline..." aria-label="Ask about Indian education law">
-              <button type="submit"><i data-lucide="arrow-up-right"></i>Ask Mitra</button>
+              <button type="submit"><i data-lucide="search"></i>Search</button>
             </form>
           </div>
           <div class="search-hint"><span>Try:</span>
             <button class="suggestion" type="button" data-query="What does the RTE Act say about age?">RTE age group</button>
             <button class="suggestion" type="button" data-query="What should a school do under POCSO?">POCSO in schools</button>
             <button class="suggestion" type="button" data-query="Is NEP 2020 a law?">NEP 2020</button>
-          </div>
-          <div class="response" id="response" role="status" aria-live="polite">
-            <div class="response-head"><div class="response-label"><i data-lucide="messages-square"></i><span id="response-label">Mitra's quick guide</span></div><button class="response-close" id="close-response" type="button" aria-label="Close response"><i data-lucide="x"></i></button></div>
-            <h3 id="response-title"></h3><p id="response-body"></p><cite id="response-cite"></cite>
           </div>
           <p class="disclaimer"><i data-lucide="info"></i>For general information, not legal advice. Verify current law and consult a qualified Indian lawyer for decisions about a specific case.</p>
         </section>
@@ -439,6 +1090,18 @@
             <div><h3>Your reading list</h3><p id="saved-count">No laws saved yet. Tap a bookmark to keep one close.</p></div>
             <button class="icon-button" type="button" id="show-saved" aria-label="Show saved laws" title="Show saved laws"><i data-lucide="bookmark-check"></i></button>
           </div>
+          <aside class="advocate-panel" aria-label="Advocate profile">
+            <div class="section-kicker" style="margin-bottom: 6px;">Advocate</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#dfeefb,#d9f0e3);color:#2f6c58;font-weight:700;">K</div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#204d3d;">Kerala Advocate Registry</div>
+                <div style="font-size:10px;color:#71817a;letter-spacing:.6px;text-transform:uppercase;">Bar Council referral</div>
+              </div>
+            </div>
+            <p style="margin:0;color:#5a6f67;font-size:11px;line-height:1.6;">Use the official Kerala Bar Council lawyer registry to confirm an advocate's registration, enrollment status, and details.</p>
+            <button class="primary-button" id="advocate-registry-btn" type="button">Open advocate registry <i data-lucide="arrow-up-right"></i></button>
+          </aside>
         </section>
 
         <footer class="footer">
@@ -459,13 +1122,13 @@
       <h2 id="detail-title"></h2><p class="detail-summary" id="detail-summary"></p>
       <div class="detail-meta" id="detail-meta"></div>
       <a class="detail-source" id="detail-source" target="_blank" rel="noopener noreferrer"><i data-lucide="external-link"></i></a>
-      <button class="primary-button" type="button" id="ask-about-law">Ask Mitra about this <i data-lucide="arrow-up-right"></i></button>
+      <button class="primary-button" type="button" id="ask-about-law">Search this topic <i data-lucide="arrow-up-right"></i></button>
     </section>
   </div>
 
   <script>
-    // Structured legal records are intentionally API-shaped for a future Java service.
-    const LEGAL_LIBRARY = [
+    const BACKEND_URL = "http://127.0.0.1:5000";
+    let LEGAL_LIBRARY = [
       { id: "rte", title: "Right to Education Act", short: "Right to Education", year: "2009", citation: "Right of Children to Free and Compulsory Education Act, 2009", type: "Central Act", category: "foundational", color: "mint-card", icon: "book-open-check", summary: "Provides for free and compulsory elementary education for children aged 6 to 14, subject to the Act's provisions.", detail: "The Act operationalizes the constitutional right under Article 21A. It sets duties for governments and local authorities, and includes requirements for schools. Exact applicability can depend on the institution and provision.", sourceUrl: "https://indiacode.gov.in/act/f56d1ae7-9bbb-40cd-95ab-193eb5a5daaa", sourceLabel: "View official Act on India Code", keywords: ["rte", "right to education", "free education", "age group", "age", "admission", "25 percent", "25%", "elementary education"] },
       { id: "article-21a", title: "Article 21A", short: "Article 21A", year: "2002", citation: "Constitution of India, Article 21A", type: "Constitutional right", category: "foundational", color: "sky-card", icon: "landmark", summary: "Recognizes a fundamental right to free and compulsory education for children aged 6 to 14, as provided by law.", detail: "Article 21A was inserted by the Constitution (Eighty-sixth Amendment) Act, 2002. Parliament enacted the RTE Act, 2009 to provide the legal framework for its implementation.", sourceUrl: "https://indiacode.gov.in/document-grid/d5475e8d-1998-4ac8-8694-82f941074bb7", sourceLabel: "View Constitution on India Code", keywords: ["article 21a", "21a", "fundamental right", "constitution", "constitutional", "education right"] },
       { id: "pocso", title: "POCSO in schools", short: "POCSO Act", year: "2012", citation: "Protection of Children from Sexual Offences Act, 2012, including section 19", type: "Central Act · Safeguarding", category: "safeguarding", color: "rose-card", icon: "heart-handshake", summary: "The Act protects children from sexual offences. Section 19 requires reporting when a person has knowledge of, or apprehension about, an offence under the Act.", detail: "Schools should have child-protection processes that prioritize the child's safety, privacy, and dignity. POCSO reporting duties are statutory; follow current law and official child-protection procedures. Do not investigate or confront a suspected offender yourself.", sourceUrl: "https://indiacode.gov.in/act/60dad1b9-bbf1-4310-8fa1-62643beab7a6", sourceLabel: "View official Act on India Code", keywords: ["pocso", "child safety", "child protection", "sexual abuse", "reporting", "mandatory reporting", "school safeguarding"] },
@@ -481,6 +1144,24 @@
     let activeDetail = null;
     let toastTimer;
 
+    async function loadLegalLibraryFromBackend() {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/acts`);
+        if (!response.ok) throw new Error("Backend unavailable");
+        const payload = await response.json();
+        if (Array.isArray(payload.items) && payload.items.length) {
+          LEGAL_LIBRARY = payload.items.map((law, index) => ({
+            ...law,
+            id: law.id || `${law.title}-${index}`,
+            keywords: Array.isArray(law.keywords) ? law.keywords : [law.title]
+          }));
+          renderLaws();
+          toast("Live dataset loaded from the backend.");
+        }
+      } catch (error) {
+        console.warn("Backend not available, keeping demo data:", error.message);
+      }
+    }
     function renderIcons() {
       if (window.lucide) window.lucide.createIcons();
     }
@@ -512,12 +1193,59 @@
       const response = document.getElementById("response");
       response.classList.toggle("fallback", fallback);
       response.classList.add("visible");
-      document.getElementById("response-label").textContent = fallback ? "A gentle redirect" : "Mitra's quick guide";
+      document.getElementById("response-label").textContent = fallback ? "Quick answer" : "Quick answer";
       document.getElementById("response-title").textContent = title;
       document.getElementById("response-body").textContent = body;
       document.getElementById("response-cite").textContent = citation;
       response.scrollIntoView({ behavior: "smooth", block: "nearest" });
       renderIcons();
+    }
+    function findTopicAnswer(normalized) {
+      const topicResponses = [
+        {
+          patterns: ["pocso", "child protection", "sexual offence", "sexual abuse", "child safeguarding", "reporting abuse"],
+          title: "POCSO and school safeguarding",
+          body: "POCSO is the Protection of Children from Sexual Offences Act, 2012. It requires reporting of child sexual offences and places a strong duty on adults, institutions, and officials to protect children and act promptly when abuse is reported or suspected. In school settings, the key steps are safety, dignity, privacy, and immediate reporting through the proper child-protection process.",
+          citation: "General education-law guidance; verify with the current statutory text and local procedure."
+        },
+        {
+          patterns: ["rte", "right to education", "age group", "free education", "elementary education", "school admission"],
+          title: "Right to Education",
+          body: "The Right of Children to Free and Compulsory Education Act, 2009 gives effect to Article 21A of the Constitution. It provides for free and compulsory education for children in the relevant elementary age group and imposes duties on schools, governments, and authorities to support access and continuity of education.",
+          citation: "Reference: RTE Act, 2009 and Article 21A."
+        },
+        {
+          patterns: ["nep", "national education policy", "nep 2020", "new education policy"],
+          title: "NEP 2020",
+          body: "NEP 2020 is a national policy framework, not an Act of Parliament by itself. It guides reforms in curriculum, teacher quality, inclusion, digital learning, and institutional design. Policy goals often require legislation, rules, or administrative action before they create enforceable legal rights.",
+          citation: "Reference: National Education Policy 2020."
+        },
+        {
+          patterns: ["disability", "disabled", "inclusive education", "rpwd", "special needs"],
+          title: "Disability and inclusion",
+          body: "The Rights of Persons with Disabilities Act, 2016 supports inclusion, non-discrimination, and access to education. Institutions are expected to ensure reasonable accommodations, accessible learning environments, and inclusive support where applicable under the current law and official rules.",
+          citation: "Reference: RPwD Act, 2016."
+        },
+        {
+          patterns: ["child labour", "adolescent labour", "employment of children", "working children"],
+          title: "Child labour and education",
+          body: "Child labour laws restrict child employment and protect children from hazardous work. Education and safety are closely connected, so schools and authorities often need to coordinate with labour and child-protection rules to prevent exploitation and support the child's right to education.",
+          citation: "Reference: Child and Adolescent Labour laws."
+        },
+        {
+          patterns: ["school", "teacher", "students", "student rights", "education rights"],
+          title: "Education rights and school obligations",
+          body: "In India, education-related rights are shaped by the Constitution, the RTE framework, child-protection laws, and sector-specific policy instruments. The exact legal outcome depends on the issue, the institution, and the applicable rules, so this summary is a general guide rather than legal advice.",
+          citation: "General education-law guidance."
+        }
+      ];
+
+      for (const item of topicResponses) {
+        if (item.patterns.some((pattern) => normalized.includes(pattern))) {
+          return item;
+        }
+      }
+      return null;
     }
     function searchLegal(query) {
       const normalized = query.trim().toLowerCase();
@@ -528,14 +1256,53 @@
       }
       recentQueries.unshift(query.trim());
       if (recentQueries.length > 5) recentQueries.pop();
-      const educationalContext = /\b(education|educational|school|schools|student|students|teacher|teachers|child|children|classroom|college|university|rte|pocso|nep|article 21a|education act|admission|inclusive education|child labour)\b/.test(normalized);
-      const match = LEGAL_LIBRARY.find((law) => law.keywords.some((keyword) => normalized.includes(keyword)));
-      if (!educationalContext) {
-        showResponse({ title: OUT_OF_SCOPE, body: "Mitra can help with Indian education-sector legal guidelines, including school rights, child safeguarding, and inclusion.", fallback: true });
+
+      const topicAnswer = findTopicAnswer(normalized);
+      if (topicAnswer) {
+        showResponse({ title: topicAnswer.title, body: topicAnswer.body, citation: topicAnswer.citation });
+        return;
+      }
+
+      const educationSignals = [
+        "education", "educational", "school", "schools", "student", "students", "teacher", "teachers",
+        "child", "children", "classroom", "college", "university", "rte", "pocso", "nep", "article 21a",
+        "admission", "inclusive education", "child labour", "disability", "rights", "law", "act", "policy"
+      ];
+      const educationRelevant = educationSignals.some((signal) => normalized.includes(signal));
+
+      const scoredMatches = LEGAL_LIBRARY.map((law) => {
+        const haystack = [
+          law.title,
+          law.short,
+          law.citation,
+          law.summary,
+          law.detail,
+          ...(Array.isArray(law.keywords) ? law.keywords : [])
+        ].join(" ").toLowerCase();
+
+        let score = 0;
+        if (haystack.includes(normalized)) score += 40;
+        const tokens = normalized.split(/\s+/).filter(Boolean);
+        tokens.forEach((token) => {
+          if (!token) return;
+          if (haystack.includes(token)) score += 6;
+          if (law.keywords.some((keyword) => String(keyword).toLowerCase().includes(token))) score += 10;
+          if (law.title.toLowerCase().includes(token)) score += 8;
+        });
+
+        if (law.keywords.some((keyword) => normalized.includes(String(keyword).toLowerCase()))) score += 20;
+        if (law.category && normalized.includes(law.category)) score += 5;
+        return { law, score };
+      }).filter((entry) => entry.score > 0).sort((a, b) => b.score - a.score);
+
+      const match = scoredMatches[0]?.law;
+
+      if (!educationRelevant && !match) {
+        showResponse({ title: OUT_OF_SCOPE, body: "This portal focuses on Indian education-sector legal guidance, including school rights, child safeguarding, and inclusion.", fallback: true });
       } else if (match) {
         showResponse({ title: match.short, body: match.summary + " " + match.detail, citation: "Reference: " + match.citation + ". Check the current official text for your situation." });
       } else {
-        showResponse({ title: "Let's narrow this down", body: "This sounds education-related, but I couldn't match it confidently to a guide in this prototype. Try naming an Act or topic, such as RTE, Article 21A, POCSO, disability inclusion, or NEP 2020.", citation: "This prototype uses a small curated reference shelf, not a live legal database." });
+        showResponse({ title: "General education-law note", body: "In India, education-related rights and obligations are generally shaped by the Constitution, the RTE framework, child-protection laws, and sector policies. For a specific case, check the exact statute and current rules before taking action.", citation: "General guidance; not legal advice." });
       }
     }
     function openDetail(law) {
@@ -600,6 +1367,11 @@
       document.getElementById("law-library").scrollIntoView({ behavior: "smooth" });
       if (!savedIds.size) toast("Save a law with the bookmark to build your reading list.");
     });
+    document.getElementById("advocate-registry-btn").addEventListener("click", () => {
+      const registryUrl = "https://barcouncilkerala.org/lawyer-registry-list";
+      window.open(registryUrl, "_blank", "noopener,noreferrer");
+      toast("Opening the Kerala Bar Council lawyer registry.");
+    });
     document.getElementById("view-all").addEventListener("click", () => {
       activeFilter = "all";
       document.querySelectorAll(".filter-button").forEach((filter) => filter.classList.toggle("selected", filter.dataset.filter === "all"));
@@ -623,17 +1395,33 @@
       document.getElementById("auth-submit").innerHTML = tab.dataset.authMode === "signup" ? 'Create account <i data-lucide="arrow-right"></i>' : 'Enter portal <i data-lucide="arrow-right"></i>';
       renderIcons();
     }));
-    document.getElementById("auth-form").addEventListener("submit", (event) => {
+    function handlePortalLogin(event) {
       event.preventDefault();
+      const form = event.currentTarget && event.currentTarget.form ? event.currentTarget.form : (event.target && event.target.closest && event.target.closest("form")) || document.getElementById("auth-form");
+      if (!(form instanceof HTMLFormElement)) {
+        toast("Unable to open the portal right now.");
+        return;
+      }
+
+      const emailInput = form.querySelector('input[name="email"]');
+      const passwordInput = form.querySelector('input[name="password"]');
       const mode = document.querySelector("[data-auth-mode].active").dataset.authMode;
-      const email = new FormData(event.currentTarget).get("email").toString();
+      const email = ((emailInput && emailInput.value) || "demo@school.org").trim();
+      const password = ((passwordInput && passwordInput.value) || "demo1234").trim();
+
+      if (!email || !password) {
+        toast("Please enter an email and password to continue.");
+        return;
+      }
+
       document.getElementById("user-name").textContent = email.split("@")[0];
       document.getElementById("portal").hidden = false;
       document.getElementById("login-page").hidden = true;
       window.scrollTo(0, 0);
       toast(mode === "signup" ? "Your prototype account is ready." : "You are signed in for this preview.");
-      event.currentTarget.reset();
-    });
+      form.reset();
+    }
+    document.getElementById("auth-form").addEventListener("submit", handlePortalLogin);
     document.getElementById("ask-about-law").addEventListener("click", () => {
       if (!activeDetail) return;
       const law = activeDetail;
@@ -648,6 +1436,7 @@
 
     renderLaws();
     renderIcons();
+    loadLegalLibraryFromBackend();
   </script>
 </body>
 </html>
