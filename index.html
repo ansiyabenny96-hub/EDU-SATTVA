@@ -274,6 +274,7 @@
     .daily-note, .quick-panel, .advocate-panel { min-height: 118px; padding: 17px 19px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,254,250,.8); }
     .advocate-panel { display: flex; flex-direction: column; gap: 10px; background: linear-gradient(135deg, rgba(232,243,250,.9), rgba(237,250,243,.9)); border-color: rgba(151,188,194,.3); }
     .advocate-panel .primary-button { width: 100%; margin-top: 4px; }
+    .registry-frame { grid-column: 1 / -1; width: 100%; height: clamp(420px, 75vh, 900px); border: 1px solid var(--line); border-radius: 10px; background: #fff; }
     .daily-note { display: flex; align-items: center; gap: 16px; background: #fbf3da; border-color: #f1e8c9; }
     .note-icon { width: 43px; height: 43px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 14px; background: rgba(255,255,255,.62); color: #a38242; }
     .note-icon svg { width: 21px; height: 21px; }
@@ -889,6 +890,7 @@
     #portal .daily-note h3, #portal .quick-panel h3 { color: #eee4c8; }
     #portal .daily-note p, #portal .quick-panel p { color: #aebdb3; line-height: 1.6; }
     #portal .advocate-panel { border-color: rgba(130,184,168,.2); }
+    #portal .registry-frame { border-color: rgba(210,226,214,.16); }
     #portal .advocate-panel .section-kicker { color: #d4c184 !important; }
     #portal .advocate-panel p { color: #b5c5ba !important; }
     #portal .advocate-panel > div:nth-child(2) > div:nth-child(2) > div:first-child { color: #eadfbe !important; }
@@ -952,6 +954,176 @@
     @media (prefers-reduced-motion: reduce) {
       #portal .hero, #portal .welcome-row h1 { animation: none !important; }
     }
+    #portal {
+      color-scheme: dark;
+      background:
+        radial-gradient(ellipse at 68% 7%, rgba(46,119,88,.2), transparent 36%),
+        linear-gradient(135deg, rgba(13,29,34,.9), rgba(15,37,41,.86)),
+        url("https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=2200&q=90") center / cover fixed,
+        #122329;
+      font-family: var(--sans);
+    }
+    #portal .layout { max-width: 1480px; padding-top: 34px; }
+    #portal .content { animation: dashboardEnter .65s cubic-bezier(.2,.75,.25,1) both; }
+    #portal .welcome-row { align-items: center; margin-bottom: 27px; }
+    #portal .welcome-row h1 { font-size: clamp(29px, 3vw, 40px); line-height: 1.12; letter-spacing: -.02em; }
+    #portal .welcome-copy { max-width: 520px; font-size: 13px; }
+    #portal .section-heading { margin-top: 39px; margin-bottom: 17px; }
+    #portal .section-heading h2 { font-size: 25px; letter-spacing: -.015em; }
+    #portal .law-toolbar { margin-bottom: 14px; }
+    #portal .law-grid {
+      grid-auto-columns: 230px;
+      min-height: 420px;
+      gap: 17px;
+      padding: 67px 24px 31px;
+      border-radius: 22px;
+      background-size: auto, 30px 30px, 30px 30px;
+    }
+    #portal .law-card,
+    #portal .law-card.mint-card,
+    #portal .law-card.sky-card,
+    #portal .law-card.rose-card,
+    #portal .law-card.lilac-card,
+    #portal .law-card.butter-card {
+      border-radius: 17px;
+      background: linear-gradient(150deg, rgba(25,52,49,.98), rgba(15,35,39,.99));
+      transition: transform .3s cubic-bezier(.2,.75,.25,1), border-color .25s ease, box-shadow .25s ease;
+    }
+    #portal .law-card:nth-child(6n+1),
+    #portal .law-card:nth-child(6n+2),
+    #portal .law-card:nth-child(6n+3),
+    #portal .law-card:nth-child(6n+4),
+    #portal .law-card:nth-child(6n+5),
+    #portal .law-card:nth-child(6n) { transform: translateY(0) rotate(0); }
+    #portal .law-card:hover {
+      transform: translateY(-7px) scale(1.012);
+      border-color: rgba(214,196,136,.38);
+    }
+    #portal .law-card.mint-card { border-top: 2px solid rgba(130,205,155,.67); }
+    #portal .law-card.sky-card { border-top: 2px solid rgba(119,190,209,.68); }
+    #portal .law-card.rose-card { border-top: 2px solid rgba(216,153,137,.65); }
+    #portal .law-card.lilac-card { border-top: 2px solid rgba(182,160,214,.66); }
+    #portal .law-card.butter-card { border-top: 2px solid rgba(221,190,111,.7); }
+    #portal .law-card-art {
+      height: 112px;
+      margin: -15px -15px 14px;
+      border-radius: 15px 15px 0 0;
+    }
+    #portal .law-card-art .law-icon { border-radius: 16px; }
+    #portal .law-card-art .save-button {
+      border: 1px solid rgba(220,230,212,.13);
+      background: rgba(14,32,34,.82);
+      color: #d0c58f;
+      backdrop-filter: blur(8px);
+    }
+    #portal .law-card-art .save-button:hover,
+    #portal .law-card-art .save-button.saved {
+      background: rgba(39,82,65,.95);
+      color: #f0d99a;
+    }
+    #portal .law-type { margin-top: 12px; }
+    #portal .law-card h3 { font-size: 18px; line-height: 1.2; }
+    #portal .law-card p { font-size: 11px; line-height: 1.6; }
+    #portal .card-bottom { padding-top: 14px; font-size: 10px; }
+    #portal .below-grid { gap: 16px; margin-top: 27px; }
+    #portal .daily-note, #portal .quick-panel, #portal .advocate-panel {
+      min-height: 140px;
+      padding: 20px;
+      border-radius: 18px;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+    #portal .daily-note:hover, #portal .quick-panel:hover, #portal .advocate-panel:hover {
+      transform: translateY(-3px);
+      border-color: rgba(211,195,139,.32);
+      box-shadow: inset 0 1px rgba(255,255,255,.07), 0 15px 34px rgba(0,0,0,.22);
+    }
+    #portal .daily-note { background: linear-gradient(135deg, rgba(44,49,37,.82), rgba(17,37,38,.93)); }
+    #portal .daily-note h3, #portal .quick-panel h3 { font-size: 17px; }
+    #portal .daily-note p, #portal .quick-panel p { font-size: 12px; }
+    #portal .advocate-panel { gap: 12px; }
+    #portal .footer { margin-top: 27px; padding-top: 17px; line-height: 1.6; }
+    #portal .hero {
+      border-radius: 25px;
+      grid-template-columns: minmax(0, 1fr) 39%;
+    }
+    #portal .hero-copy { padding: 38px 40px; }
+    #portal .hero h2 { font-size: clamp(28px, 3vw, 38px); letter-spacing: -.015em; }
+    #portal .hero-art {
+      width: 100%;
+      max-width: 480px;
+      height: 100%;
+      min-height: 300px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      overflow: visible;
+      opacity: .92;
+      pointer-events: none;
+    }
+    #portal .hero-art .art-orbit { transform-origin: 710px 190px; animation: artOrbit 48s linear infinite; }
+    #portal .hero-art .art-book { transform-origin: 700px 226px; animation: artFloat 6s ease-in-out infinite; }
+    #portal .hero-art .art-spark { animation: artTwinkle 3.8s ease-in-out infinite alternate; }
+    #portal .hero-art .art-spark:nth-of-type(2n) { animation-delay: -1.7s; }
+    #portal .companion {
+      right: 31%;
+      bottom: 18px;
+      width: 52px;
+      height: 52px;
+      border-width: 1px;
+      border-radius: 17px;
+      animation-duration: 5s;
+    }
+    #portal .companion svg { width: 23px; height: 23px; color: #e7d28f; }
+    #portal .search-section { margin-right: 24px; margin-left: 24px; }
+    #portal .search-shell { border-radius: 17px; }
+    #portal .search-form button, #portal .primary-button { border-radius: 11px; }
+    #portal .response { border-radius: 18px; }
+    #portal .filters { gap: 8px; }
+    #portal .filter-button { padding: 8px 12px; border-radius: 10px; }
+    #portal .deck-controls .icon-button { border-radius: 11px; }
+    #portal .detail-modal { border-radius: 22px; }
+    #portal :is(.nav-link, .icon-button, .filter-button, .search-form button, .primary-button, .save-button, .law-card):focus-visible {
+      outline: 2px solid #dfc17b;
+      outline-offset: 3px;
+    }
+    @keyframes dashboardEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes artOrbit { to { transform: rotate(360deg); } }
+    @keyframes artFloat { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+    @keyframes artTwinkle { from { opacity: .3; transform: scale(.82); } to { opacity: 1; transform: scale(1.1); } }
+    @media (max-width: 1050px) and (min-width: 721px) {
+      #portal .hero { grid-template-columns: minmax(0, 1fr) 34%; }
+      #portal .hero-copy { padding: 32px; }
+      #portal .law-grid { grid-auto-columns: 210px; }
+    }
+    @media (max-width: 720px) {
+      #portal { background-attachment: scroll; }
+      #portal .layout { padding-top: 20px; }
+      #portal .welcome-row { align-items: flex-start; margin-bottom: 18px; }
+      #portal .welcome-row h1 { font-size: 30px; }
+      #portal .section-heading { margin-top: 30px; }
+      #portal .hero { grid-template-columns: 1fr; min-height: 285px; }
+      #portal .hero-copy { padding: 24px 21px 90px; }
+      #portal .hero-image-wrap { width: 58%; }
+      #portal .hero-art { width: 100%; min-height: 100%; opacity: .7; }
+      #portal .hero-art .art-orbit { transform-origin: 710px 190px; }
+      #portal .companion { right: 23%; bottom: 13px; }
+      #portal .search-section { margin-right: 12px; margin-left: 12px; }
+      #portal .law-grid { grid-auto-columns: 190px; min-height: 400px; gap: 15px; padding: 62px 16px 28px; border-radius: 18px; }
+      #portal .law-card { border-radius: 15px; }
+      #portal .law-card-art { border-radius: 13px 13px 0 0; }
+      #portal .below-grid { gap: 12px; margin-top: 21px; }
+      #portal .daily-note, #portal .quick-panel, #portal .advocate-panel { min-height: 0; padding: 17px; border-radius: 16px; }
+      #portal .footer { margin-top: 22px; }
+    }
+    @media (max-width: 390px) {
+      #portal .law-grid { grid-auto-columns: 172px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #portal .content, #portal .hero-art .art-orbit,
+      #portal .hero-art .art-book, #portal .hero-art .art-spark {
+        animation: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -984,12 +1156,12 @@
           <button class="auth-tab active" type="button" role="tab" aria-selected="true" data-auth-mode="login">Log in</button>
           <button class="auth-tab" type="button" role="tab" aria-selected="false" data-auth-mode="signup">Sign up</button>
         </div>
-        <form class="auth-form" id="auth-form" novalidate>
-          <label>Email address<input id="auth-email" type="email" name="email" autocomplete="email" placeholder="you@school.org"></label>
-          <label>Password<input type="password" name="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8"></label>
+        <form class="auth-form" id="auth-form">
+          <label>Email address<input id="auth-email" type="email" name="email" autocomplete="email" placeholder="you@school.org" required></label>
+          <label>Password<input type="password" name="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8" required></label>
           <button class="primary-button" type="submit" id="auth-submit">Enter portal <i data-lucide="arrow-right"></i></button>
         </form>
-        <div class="auth-footnote">Preview only · Sign-in is not connected to an account service</div>
+        <div class="auth-footnote">Preview only · Accounts are stored in this browser, not on a server</div>
       </section>
     </main>
     <footer class="login-footer"><span>SATTVA · Indian education law copilot</span><span>For general information, not legal advice</span></footer>
@@ -1004,7 +1176,7 @@
       <div class="top-right">
         <div class="jurisdiction"><span class="dot"></span> Indian jurisdiction</div>
         <button class="avatar-button" type="button" id="open-auth" aria-label="Sign out">
-          <span class="avatar">🌼</span><span class="avatar-label"><span id="user-name">Educator</span><small>Sign out</small></span>
+          <span class="avatar"><i data-lucide="user-round" aria-hidden="true"></i></span><span class="avatar-label"><span id="user-name">Educator</span><small>Sign out</small></span>
         </button>
       </div>
     </header>
@@ -1038,10 +1210,47 @@
             <p>Your AI copilot for Indian education rights and regulations. Start with a question, leave with a clearer next step.</p>
           </div>
           <div class="hero-image-wrap" aria-hidden="true">
-            <img class="hero-image" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80" alt="">
+            <svg class="hero-art" viewBox="500 45 410 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="art-page" x1="520" y1="203" x2="831" y2="334" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#D6C17E"/>
+                  <stop offset="1" stop-color="#7EBF9B"/>
+                </linearGradient>
+                <linearGradient id="art-column" x1="702" y1="84" x2="702" y2="280" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#C8D9AD" stop-opacity=".76"/>
+                  <stop offset="1" stop-color="#72AA8B" stop-opacity=".12"/>
+                </linearGradient>
+                <radialGradient id="art-glow" cx="0" cy="0" r="1" gradientTransform="matrix(0 154 -196 0 706 197)" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#C9B46E" stop-opacity=".24"/>
+                  <stop offset="1" stop-color="#C9B46E" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="705" cy="194" rx="190" ry="154" fill="url(#art-glow)"/>
+              <g class="art-orbit" stroke="#D7C27E" stroke-opacity=".23">
+                <circle cx="710" cy="190" r="134"/>
+                <ellipse cx="710" cy="190" rx="169" ry="70" transform="rotate(-24 710 190)"/>
+                <circle cx="838" cy="157" r="4" fill="#E9D38E" stroke="none"/>
+                <circle cx="586" cy="103" r="3" fill="#B6D8BB" stroke="none"/>
+              </g>
+              <g opacity=".72" stroke="url(#art-column)" stroke-width="5">
+                <path d="M665 91v163M705 78v176M745 91v163"/>
+                <path d="M644 91h122M644 253h122M654 81h102"/>
+                <path d="M660 264h90"/>
+              </g>
+              <path d="M616 133c28-28 58-35 91-28v122c-33-7-63 0-91 28V133Z" fill="#173D39" fill-opacity=".76" stroke="#CBB875" stroke-opacity=".68" stroke-width="2"/>
+              <path d="M707 105c33-7 63 0 91 28v122c-28-28-58-35-91-28V105Z" fill="#1E5146" fill-opacity=".83" stroke="#CBB875" stroke-opacity=".68" stroke-width="2"/>
+              <path d="M707 109v145" stroke="#E2D39F" stroke-opacity=".72" stroke-width="2"/>
+              <path d="M633 152c20-12 40-17 60-16M633 169c20-12 40-17 60-16M633 186c20-12 40-17 60-16M721 136c20-1 40 4 60 16M721 153c20-1 40 4 60 16M721 170c20-1 40 4 60 16" stroke="#D6E3C3" stroke-opacity=".48" stroke-width="2" stroke-linecap="round"/>
+              <path d="m606 284 101 23 100-23" stroke="#D9C781" stroke-opacity=".52" stroke-width="2"/>
+              <g class="art-spark" fill="#E8D18A">
+                <path d="m559 152 4 10 10 4-10 4-4 10-4-10-10-4 10-4 4-10ZM833 222l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z"/>
+              </g>
+              <circle class="art-spark" cx="594" cy="229" r="3" fill="#B5DCC0"/>
+              <circle class="art-spark" cx="808" cy="97" r="2.5" fill="#E8D18A"/>
+            </svg>
           </div>
           <div class="hero-decor" aria-hidden="true"></div>
-          <div class="companion" title="Education law guide" aria-label="Education law guide">📚</div>
+          <div class="companion" title="Education law guide" aria-label="Education law guide"><i data-lucide="book-open-check"></i></div>
         </section>
 
         <section class="search-section" aria-label="Ask the legal copilot">
@@ -1100,8 +1309,9 @@
               </div>
             </div>
             <p style="margin:0;color:#5a6f67;font-size:11px;line-height:1.6;">Use the official Kerala Bar Council lawyer registry to confirm an advocate's registration, enrollment status, and details.</p>
-            <button class="primary-button" id="advocate-registry-btn" type="button">Open advocate registry <i data-lucide="arrow-up-right"></i></button>
+            <button class="primary-button" id="advocate-registry-btn" type="button" aria-expanded="false" aria-controls="advocate-registry-frame">Open advocate registry <i data-lucide="arrow-down"></i></button>
           </aside>
+          <iframe class="registry-frame" id="advocate-registry-frame" title="Bar Council of Kerala lawyer registry" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" hidden></iframe>
         </section>
 
         <footer class="footer">
@@ -1137,6 +1347,9 @@
       { id: "rpwd", title: "Rights of Persons with Disabilities", short: "RPwD Act", year: "2016", citation: "Rights of Persons with Disabilities Act, 2016", type: "Central Act · Inclusion", category: "foundational", color: "sky-card", icon: "accessibility", summary: "Provides rights and protections for persons with disabilities, including provisions relating to inclusive education.", detail: "The Act includes duties concerning non-discrimination and inclusive education. Specific duties and remedies depend on the institution, applicable rules, and the circumstances.", sourceUrl: "https://indiacode.gov.in/act/a2ccc006-552f-4598-886f-217d79088b9d", sourceLabel: "View official Act on India Code", keywords: ["disability", "disabled", "inclusive education", "accessibility", "reasonable accommodation", "rpwd", "special needs"] }
     ];
     const OUT_OF_SCOPE = "I am specialized exclusively in Indian Educational Laws & Regulations. Please ask a question related to education sector legal guidelines.";
+    const ACCOUNT_STORAGE_KEY = "sattva.accounts";
+    const SESSION_STORAGE_KEY = "sattva.authenticatedUser";
+    // This preview has no account API; browser storage is for demo flow only, not production authentication.
     const savedIds = new Set();
     const recentQueries = [];
     const lawGrid = document.getElementById("law-grid");
@@ -1157,9 +1370,51 @@
           }));
           renderLaws();
           toast("Live dataset loaded from the backend.");
+          return;
         }
       } catch (error) {
-        console.warn("Backend not available, keeping demo data:", error.message);
+        console.warn("Backend not available, loading the bundled act dataset:", error.message);
+      }
+      try {
+        // Use the repository's full act data as a fallback when the API is not running.
+        const response = await fetch("./backend/data/acts.json");
+        if (!response.ok) throw new Error(`Bundled act data unavailable (${response.status}).`);
+        const acts = await response.json();
+        if (!Array.isArray(acts) || !acts.length) throw new Error("Bundled act data is empty or invalid.");
+        LEGAL_LIBRARY = acts.map((act, index) => {
+          const title = act.actName || `Education law ${index + 1}`;
+          const normalizedCategory = String(act.category || "").toLocaleLowerCase();
+          const normalizedTitle = title.toLocaleLowerCase();
+          const category = normalizedCategory.includes("state")
+            ? "policy"
+            : normalizedCategory.includes("constitutional")
+              ? "foundational"
+              : normalizedTitle.includes("disabil")
+                ? "inclusive"
+                : normalizedTitle.includes("child") || normalizedTitle.includes("pocso")
+                  ? "safeguarding"
+                  : "policy";
+          return {
+            id: act.id || `${title}-${index}`,
+            title,
+            short: title.replace(/^The /, "").replace(/,? \d{4}$/, ""),
+            year: act.year == null ? "" : String(act.year),
+            citation: title,
+            type: act.category || "Education law",
+            category,
+            color: "mint-card",
+            icon: "book-open-check",
+            summary: act.purpose || "",
+            detail: act.purpose || "",
+            sourceUrl: "https://www.indiacode.nic.in/",
+            sourceLabel: "India Code",
+            keywords: [act.category, act.level, title, act.purpose, act.jurisdiction].filter(Boolean)
+          };
+        });
+        renderLaws();
+        toast(`${LEGAL_LIBRARY.length} acts loaded from the bundled dataset.`);
+      } catch (error) {
+        console.warn("Bundled act data unavailable, keeping demo data:", error.message);
       }
     }
     function renderIcons() {
@@ -1172,18 +1427,27 @@
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => node.classList.remove("show"), 2600);
     }
+    function escapeHtml(value) {
+      return String(value == null ? "" : value).replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
     function renderLaws() {
       const records = LEGAL_LIBRARY.filter((law) => activeFilter === "saved" ? savedIds.has(law.id) : activeFilter === "all" || law.category === activeFilter);
       lawGrid.innerHTML = records.map((law, index) => `
-        <article class="law-card ${law.color}" data-law-id="${law.id}" tabindex="0" aria-label="Read about ${law.title}">
+        <article class="law-card ${escapeHtml(law.color)}" data-law-id="${escapeHtml(law.id)}" tabindex="0" aria-label="Read about ${escapeHtml(law.title)}">
           <div class="law-card-art">
             <span class="law-card-index">${String(index + 1).padStart(2, "0")} / ${String(records.length).padStart(2, "0")}</span>
-            <span class="law-icon"><i data-lucide="${law.icon}"></i></span>
+            <span class="law-icon"><i data-lucide="${escapeHtml(law.icon)}"></i></span>
             <span class="law-card-caption">EDUCATION / INDIA</span>
-            <button class="save-button ${savedIds.has(law.id) ? "saved" : ""}" type="button" data-save-id="${law.id}" aria-label="${savedIds.has(law.id) ? "Remove saved" : "Save"} ${law.title}" aria-pressed="${savedIds.has(law.id)}"><i data-lucide="${savedIds.has(law.id) ? "bookmark-check" : "bookmark"}"></i></button>
+            <button class="save-button ${savedIds.has(law.id) ? "saved" : ""}" type="button" data-save-id="${escapeHtml(law.id)}" aria-label="${savedIds.has(law.id) ? "Remove saved" : "Save"} ${escapeHtml(law.title)}" aria-pressed="${savedIds.has(law.id)}"><i data-lucide="${savedIds.has(law.id) ? "bookmark-check" : "bookmark"}"></i></button>
           </div>
-          <div class="law-card-copy"><span class="law-type">${law.type}</span><h3>${law.title}</h3><p>${law.summary}</p>
-            <div class="card-bottom"><span>${law.year}</span><span>Read guide <i data-lucide="arrow-up-right"></i></span></div>
+          <div class="law-card-copy"><span class="law-type">${escapeHtml(law.type)}</span><h3>${escapeHtml(law.title)}</h3><p>${escapeHtml(law.summary)}</p>
+            <div class="card-bottom"><span>${escapeHtml(law.year)}</span><span>Read guide <i data-lucide="arrow-up-right"></i></span></div>
           </div>
         </article>`).join("");
       document.getElementById("saved-count").textContent = savedIds.size ? `${savedIds.size} ${savedIds.size === 1 ? "law" : "laws"} saved to your reading list.` : "No laws saved yet. Tap a bookmark to keep one close.";
@@ -1200,75 +1464,111 @@
       response.scrollIntoView({ behavior: "smooth", block: "nearest" });
       renderIcons();
     }
-    function findTopicAnswer(normalized) {
+    const SEARCH_STOP_WORDS = new Set([
+      "a", "about", "an", "and", "are", "can", "do", "does", "for", "from", "how",
+      "i", "in", "is", "it", "me", "of", "on", "please", "say", "the", "tell", "to",
+      "under", "what", "when", "where", "which", "who", "why", "with"
+    ]);
+    const SEARCH_SYNONYMS = {
+      education: ["educational", "learning", "school", "student", "teacher", "child", "rights"],
+      school: ["schools", "classroom", "classrooms", "student", "students", "teacher", "teachers"],
+      student: ["students", "pupil", "pupils", "learner", "learners"],
+      teacher: ["teachers", "educator", "educators", "faculty"],
+      admission: ["admissions", "enrolment", "enrollment", "reservation", "access"],
+      admissions: ["admission", "enrolment", "enrollment", "reservation", "access"],
+      schools: ["school", "classroom", "students", "teachers"],
+      students: ["student", "pupil", "pupils", "learner", "learners"],
+      teachers: ["teacher", "educator", "educators", "faculty"],
+      right: ["rights", "fundamental", "constitutional", "access", "inclusion"],
+      rights: ["right", "fundamental", "constitutional", "access", "inclusion", "disability", "reservation", "admission", "rte"],
+      disability: ["disabled", "accessibility", "inclusive", "accommodation"],
+      rte: ["right to education", "free education", "elementary education", "admission"],
+      pocso: ["child protection", "safeguarding", "sexual offence", "child safety"],
+      nep: ["national education policy", "policy framework", "curriculum"]
+    };
+    function searchTokens(value) {
+      return value.toLocaleLowerCase().match(/[a-z0-9]+/g)?.filter((token) => token.length > 1 && !SEARCH_STOP_WORDS.has(token)) || [];
+    }
+    function searchTermMatches(term, candidates) {
+      if (term.length < 2) return false;
+      return candidates.some((candidate) => candidate.includes(term) || (term.length >= 4 && term.includes(candidate)));
+    }
+    function scoreSearchTerms(queryTerms, candidates, boost = 1) {
+      let score = 0;
+      for (const token of queryTerms) {
+        const relatedTerms = [token, ...(SEARCH_SYNONYMS[token] || [])];
+        if (relatedTerms.some((term) => searchTermMatches(term, candidates))) score += 6 * boost;
+      }
+      return score;
+    }
+    function findTopicAnswers(query, queryTerms) {
       const topicResponses = [
         {
           patterns: ["pocso", "child protection", "sexual offence", "sexual abuse", "child safeguarding", "reporting abuse"],
+          keywords: ["child safety", "safeguarding", "mandatory reporting", "school protection"],
           title: "POCSO and school safeguarding",
           body: "POCSO is the Protection of Children from Sexual Offences Act, 2012. It requires reporting of child sexual offences and places a strong duty on adults, institutions, and officials to protect children and act promptly when abuse is reported or suspected. In school settings, the key steps are safety, dignity, privacy, and immediate reporting through the proper child-protection process.",
           citation: "General education-law guidance; verify with the current statutory text and local procedure."
         },
         {
           patterns: ["rte", "right to education", "age group", "free education", "elementary education", "school admission"],
+          keywords: ["admission", "enrolment", "elementary school", "free education", "age 6 to 14", "student access"],
           title: "Right to Education",
           body: "The Right of Children to Free and Compulsory Education Act, 2009 gives effect to Article 21A of the Constitution. It provides for free and compulsory education for children in the relevant elementary age group and imposes duties on schools, governments, and authorities to support access and continuity of education.",
           citation: "Reference: RTE Act, 2009 and Article 21A."
         },
         {
           patterns: ["nep", "national education policy", "nep 2020", "new education policy"],
+          keywords: ["curriculum", "education policy", "school reform", "learning"],
           title: "NEP 2020",
           body: "NEP 2020 is a national policy framework, not an Act of Parliament by itself. It guides reforms in curriculum, teacher quality, inclusion, digital learning, and institutional design. Policy goals often require legislation, rules, or administrative action before they create enforceable legal rights.",
           citation: "Reference: National Education Policy 2020."
         },
         {
           patterns: ["disability", "disabled", "inclusive education", "rpwd", "special needs"],
+          keywords: ["accessibility", "accommodation", "inclusion", "disability rights"],
           title: "Disability and inclusion",
           body: "The Rights of Persons with Disabilities Act, 2016 supports inclusion, non-discrimination, and access to education. Institutions are expected to ensure reasonable accommodations, accessible learning environments, and inclusive support where applicable under the current law and official rules.",
           citation: "Reference: RPwD Act, 2016."
         },
         {
           patterns: ["child labour", "adolescent labour", "employment of children", "working children"],
+          keywords: ["child employment", "work", "prohibition", "child protection"],
           title: "Child labour and education",
           body: "Child labour laws restrict child employment and protect children from hazardous work. Education and safety are closely connected, so schools and authorities often need to coordinate with labour and child-protection rules to prevent exploitation and support the child's right to education.",
           citation: "Reference: Child and Adolescent Labour laws."
         },
         {
           patterns: ["school", "teacher", "students", "student rights", "education rights"],
+          keywords: ["education", "school", "schools", "rights", "student", "teacher"],
           title: "Education rights and school obligations",
           body: "In India, education-related rights are shaped by the Constitution, the RTE framework, child-protection laws, and sector-specific policy instruments. The exact legal outcome depends on the issue, the institution, and the applicable rules, so this summary is a general guide rather than legal advice.",
           citation: "General education-law guidance."
         }
       ];
 
-      for (const item of topicResponses) {
-        if (item.patterns.some((pattern) => normalized.includes(pattern))) {
-          return item;
-        }
-      }
-      return null;
+      const normalizedQuery = query.toLocaleLowerCase();
+      const broadTerms = new Set(["education", "educational", "school", "schools", "rights", "right", "student", "students", "teacher", "teachers"]);
+      return topicResponses.map((item) => {
+        const candidates = [...item.patterns, ...item.keywords, item.title].flatMap(searchTokens);
+        let score = scoreSearchTerms(queryTerms, candidates, 2);
+        if (item.patterns.some((pattern) => normalizedQuery.includes(pattern))) score += 18;
+        if (item.keywords.some((keyword) => normalizedQuery.includes(keyword))) score += 12;
+        if (item.title.toLocaleLowerCase().includes(normalizedQuery)) score += 20;
+        if (item.title === "Education rights and school obligations" && queryTerms.some((term) => broadTerms.has(term))) score += 10;
+        return { item, score };
+      }).filter((entry) => entry.score > 0).sort((left, right) => right.score - left.score);
     }
     function searchLegal(query) {
-      const normalized = query.trim().toLowerCase();
-      if (!normalized) {
+      const normalized = query.trim().toLocaleLowerCase();
+      const queryTerms = [...new Set(searchTokens(normalized))];
+      if (!queryTerms.length) {
         document.getElementById("legal-query").focus();
         toast("Type a question to get started.");
         return;
       }
       recentQueries.unshift(query.trim());
       if (recentQueries.length > 5) recentQueries.pop();
-
-      const topicAnswer = findTopicAnswer(normalized);
-      if (topicAnswer) {
-        showResponse({ title: topicAnswer.title, body: topicAnswer.body, citation: topicAnswer.citation });
-        return;
-      }
-
-      const educationSignals = [
-        "education", "educational", "school", "schools", "student", "students", "teacher", "teachers",
-        "child", "children", "classroom", "college", "university", "rte", "pocso", "nep", "article 21a",
-        "admission", "inclusive education", "child labour", "disability", "rights", "law", "act", "policy"
-      ];
-      const educationRelevant = educationSignals.some((signal) => normalized.includes(signal));
 
       const scoredMatches = LEGAL_LIBRARY.map((law) => {
         const haystack = [
@@ -1277,37 +1577,59 @@
           law.citation,
           law.summary,
           law.detail,
+          law.ministry,
+          law.department,
           ...(Array.isArray(law.keywords) ? law.keywords : [])
-        ].join(" ").toLowerCase();
-
-        let score = 0;
-        if (haystack.includes(normalized)) score += 40;
-        const tokens = normalized.split(/\s+/).filter(Boolean);
-        tokens.forEach((token) => {
-          if (!token) return;
-          if (haystack.includes(token)) score += 6;
-          if (law.keywords.some((keyword) => String(keyword).toLowerCase().includes(token))) score += 10;
-          if (law.title.toLowerCase().includes(token)) score += 8;
-        });
-
-        if (law.keywords.some((keyword) => normalized.includes(String(keyword).toLowerCase()))) score += 20;
-        if (law.category && normalized.includes(law.category)) score += 5;
+        ].join(" ").toLocaleLowerCase();
+        const candidates = searchTokens(haystack);
+        const keywordCandidates = (Array.isArray(law.keywords) ? law.keywords : []).flatMap(searchTokens);
+        const titleCandidates = searchTokens(`${law.title} ${law.short}`);
+        let score = scoreSearchTerms(queryTerms, candidates);
+        score += scoreSearchTerms(queryTerms, keywordCandidates, 2);
+        score += scoreSearchTerms(queryTerms, titleCandidates, 2);
+        if (normalized.length > 2 && haystack.includes(normalized)) score += 30;
         return { law, score };
       }).filter((entry) => entry.score > 0).sort((a, b) => b.score - a.score);
 
-      const match = scoredMatches[0]?.law;
+      const topicAnswers = findTopicAnswers(normalized, queryTerms);
+      const topicAnswer = topicAnswers[0]?.score >= 6 ? topicAnswers[0].item : null;
+      const educationRelevant = topicAnswers.length > 0 || scoredMatches.length > 0;
+      const relatedLaws = scoredMatches
+        .filter((entry) => entry.score >= 6)
+        .slice(0, 6)
+        .map(({ law }) => `${law.short}: ${law.summary}`)
+        .join("\n");
 
-      if (!educationRelevant && !match) {
+      if (!educationRelevant) {
         showResponse({ title: OUT_OF_SCOPE, body: "This portal focuses on Indian education-sector legal guidance, including school rights, child safeguarding, and inclusion.", fallback: true });
-      } else if (match) {
-        showResponse({ title: match.short, body: match.summary + " " + match.detail, citation: "Reference: " + match.citation + ". Check the current official text for your situation." });
+      } else if (topicAnswer) {
+        const relatedGuides = relatedLaws ? `\n\nRelated law guides\n${relatedLaws}` : "";
+        const otherTopics = topicAnswers
+          .slice(1)
+          .filter((entry) => entry.score >= 12 && entry.item.title !== topicAnswer.title)
+          .slice(0, 2)
+          .map((entry) => entry.item.title);
+        const topicNote = otherTopics.length ? `\n\nAlso related: ${otherTopics.join(", ")}.` : "";
+        showResponse({
+          title: topicAnswer.title,
+          body: `${topicAnswer.body}${topicNote}${relatedGuides}`,
+          citation: topicAnswer.citation
+        });
+      } else if (scoredMatches.length) {
+        const match = scoredMatches[0].law;
+        const relatedGuides = relatedLaws ? `\n\nRelated law guides\n${relatedLaws}` : "";
+        showResponse({
+          title: match.short,
+          body: `${match.summary} ${match.detail}${relatedGuides}`,
+          citation: `Reference: ${match.citation}. Check the current official text for your situation.`
+        });
       } else {
         showResponse({ title: "General education-law note", body: "In India, education-related rights and obligations are generally shaped by the Constitution, the RTE framework, child-protection laws, and sector policies. For a specific case, check the exact statute and current rules before taking action.", citation: "General guidance; not legal advice." });
       }
     }
     function openDetail(law) {
       activeDetail = law;
-      document.getElementById("detail-icon").innerHTML = `<i data-lucide="${law.icon}"></i>`;
+      document.getElementById("detail-icon").innerHTML = `<i data-lucide="${escapeHtml(law.icon)}"></i>`;
       document.getElementById("detail-type").textContent = law.type;
       document.getElementById("detail-title").textContent = law.title;
       document.getElementById("detail-summary").textContent = law.detail;
@@ -1321,9 +1643,103 @@
     function closeModals() {
       document.querySelectorAll(".modal-backdrop").forEach((modal) => modal.classList.remove("open"));
     }
+    function getStoredAccounts() {
+      try {
+        const savedAccounts = localStorage.getItem(ACCOUNT_STORAGE_KEY);
+        const accounts = savedAccounts ? JSON.parse(savedAccounts) : [];
+        if (!Array.isArray(accounts) || accounts.some((account) =>
+          !account || typeof account.email !== "string" ||
+          typeof account.passwordSalt !== "string" || typeof account.passwordHash !== "string"
+        )) {
+          throw new Error("Stored account data has an invalid format.");
+        }
+        return accounts;
+      } catch (error) {
+        console.error("Unable to read browser account storage:", error);
+        toast("Unable to read account data in this browser.");
+        return null;
+      }
+    }
+    function saveStoredAccounts(accounts) {
+      try {
+        localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(accounts));
+        return true;
+      } catch (error) {
+        console.error("Unable to save browser account data:", error);
+        toast("Unable to save your account in this browser.");
+        return false;
+      }
+    }
+    async function hashPassword(password, saltHex) {
+      if (!window.crypto || !window.crypto.subtle) {
+        throw new Error("Password hashing is unavailable.");
+      }
+      const salt = new Uint8Array(saltHex.match(/.{2}/g).map((byte) => Number.parseInt(byte, 16)));
+      const key = await window.crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+      const digest = await window.crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt, iterations: 310000, hash: "SHA-256" },
+        key,
+        256
+      );
+      return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+    }
+    function createPasswordSalt() {
+      if (!window.crypto || !window.crypto.getRandomValues) {
+        throw new Error("Random password salts are unavailable.");
+      }
+      return Array.from(window.crypto.getRandomValues(new Uint8Array(16)), (byte) =>
+        byte.toString(16).padStart(2, "0")
+      ).join("");
+    }
+    function hasAuthenticatedSession() {
+      try {
+        return Boolean(sessionStorage.getItem(SESSION_STORAGE_KEY));
+      } catch (error) {
+        console.error("Unable to read the browser session:", error);
+        return false;
+      }
+    }
+    function requireAuthentication() {
+      if (hasAuthenticatedSession()) return true;
+      document.getElementById("portal").hidden = true;
+      document.getElementById("login-page").hidden = false;
+      toast("You are not logged in.");
+      return false;
+    }
+    function restoreSession() {
+      let email;
+      try {
+        email = sessionStorage.getItem(SESSION_STORAGE_KEY);
+      } catch (error) {
+        console.error("Unable to restore the browser session:", error);
+        return false;
+      }
+      if (!email) return false;
+
+      const accounts = getStoredAccounts();
+      if (!accounts || !accounts.some((account) => account.email === email)) {
+        try {
+          sessionStorage.removeItem(SESSION_STORAGE_KEY);
+        } catch (error) {
+          console.error("Unable to clear an invalid browser session:", error);
+        }
+        return false;
+      }
+      document.getElementById("user-name").textContent = email.split("@")[0];
+      document.getElementById("portal").hidden = false;
+      document.getElementById("login-page").hidden = true;
+      return true;
+    }
+    function protectPortalRoute() {
+      const target = document.getElementById(window.location.hash.slice(1));
+      if (target && document.getElementById("portal").contains(target) && !requireAuthentication()) {
+        window.history.replaceState(null, "", "#login-page");
+      }
+    }
 
     document.getElementById("search-form").addEventListener("submit", (event) => {
       event.preventDefault();
+      if (!requireAuthentication()) return;
       searchLegal(document.getElementById("legal-query").value);
     });
     document.querySelectorAll(".suggestion").forEach((button) => button.addEventListener("click", () => {
@@ -1368,9 +1784,18 @@
       if (!savedIds.size) toast("Save a law with the bookmark to build your reading list.");
     });
     document.getElementById("advocate-registry-btn").addEventListener("click", () => {
-      const registryUrl = "https://barcouncilkerala.org/lawyer-registry-list";
-      window.open(registryUrl, "_blank", "noopener,noreferrer");
-      toast("Opening the Kerala Bar Council lawyer registry.");
+      const button = document.getElementById("advocate-registry-btn");
+      const frame = document.getElementById("advocate-registry-frame");
+      const isOpen = button.getAttribute("aria-expanded") === "true";
+      if (!isOpen && !frame.src) {
+        frame.src = "https://barcouncilkerala.org/lawyer-registry-list";
+      }
+      frame.hidden = isOpen;
+      button.setAttribute("aria-expanded", String(!isOpen));
+      button.innerHTML = isOpen
+        ? 'Open advocate registry <i data-lucide="arrow-down"></i>'
+        : 'Close advocate registry <i data-lucide="arrow-up"></i>';
+      renderIcons();
     });
     document.getElementById("view-all").addEventListener("click", () => {
       activeFilter = "all";
@@ -1380,6 +1805,11 @@
     document.getElementById("next-laws").addEventListener("click", () => lawGrid.scrollBy({ left: lawGrid.clientWidth * .7, behavior: "instant" }));
     document.getElementById("prev-laws").addEventListener("click", () => lawGrid.scrollBy({ left: -lawGrid.clientWidth * .7, behavior: "instant" }));
     document.getElementById("open-auth").addEventListener("click", () => {
+      try {
+        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+      } catch (error) {
+        console.error("Unable to clear the browser session:", error);
+      }
       document.getElementById("portal").hidden = true;
       document.getElementById("login-page").hidden = false;
       document.getElementById("auth-form").reset();
@@ -1395,7 +1825,7 @@
       document.getElementById("auth-submit").innerHTML = tab.dataset.authMode === "signup" ? 'Create account <i data-lucide="arrow-right"></i>' : 'Enter portal <i data-lucide="arrow-right"></i>';
       renderIcons();
     }));
-    function handlePortalLogin(event) {
+    async function handlePortalLogin(event) {
       event.preventDefault();
       const form = event.currentTarget && event.currentTarget.form ? event.currentTarget.form : (event.target && event.target.closest && event.target.closest("form")) || document.getElementById("auth-form");
       if (!(form instanceof HTMLFormElement)) {
@@ -1406,22 +1836,92 @@
       const emailInput = form.querySelector('input[name="email"]');
       const passwordInput = form.querySelector('input[name="password"]');
       const mode = document.querySelector("[data-auth-mode].active").dataset.authMode;
-      const email = ((emailInput && emailInput.value) || "demo@school.org").trim();
-      const password = ((passwordInput && passwordInput.value) || "demo1234").trim();
+      if (!(emailInput instanceof HTMLInputElement) || !(passwordInput instanceof HTMLInputElement)) {
+        toast("Please enter a valid email address.");
+        return;
+      }
+      emailInput.value = emailInput.value.trim();
+      if (!emailInput.checkValidity()) {
+        emailInput.reportValidity();
+        return;
+      }
+      const email = emailInput.value.toLocaleLowerCase();
+      const password = passwordInput.value;
 
       if (!email || !password) {
         toast("Please enter an email and password to continue.");
         return;
       }
 
+      const accounts = getStoredAccounts();
+      if (!accounts) return;
+      if (mode === "signup") {
+        if (accounts.some((account) => account.email === email)) {
+          toast("An account with this email already exists. Please log in.");
+          return;
+        }
+        try {
+          // Sign-up stores a salted password hash, then leaves authentication to the login flow.
+          const passwordSalt = createPasswordSalt();
+          accounts.push({ email, passwordSalt, passwordHash: await hashPassword(password, passwordSalt) });
+        } catch (error) {
+          console.error("Unable to securely create the account:", error);
+          toast("Password hashing is unavailable in this browser.");
+          return;
+        }
+        if (!saveStoredAccounts(accounts)) return;
+        passwordInput.value = "";
+        document.querySelector('[data-auth-mode="login"]').click();
+        toast("Account created. Please log in.");
+        emailInput.focus();
+        return;
+      }
+
+      const account = accounts.find((storedAccount) => storedAccount.email === email);
+      if (!account) {
+        toast("Account not found. Please sign up first.");
+        return;
+      }
+      try {
+        if (account.passwordHash !== await hashPassword(password, account.passwordSalt)) {
+          toast("Incorrect email or password.");
+          return;
+        }
+      } catch (error) {
+        console.error("Unable to securely verify the account:", error);
+        toast("Password verification is unavailable in this browser.");
+        return;
+      }
+      try {
+        sessionStorage.setItem(SESSION_STORAGE_KEY, email);
+      } catch (error) {
+        console.error("Unable to create the browser session:", error);
+        toast("Unable to start your session in this browser.");
+        return;
+      }
       document.getElementById("user-name").textContent = email.split("@")[0];
       document.getElementById("portal").hidden = false;
       document.getElementById("login-page").hidden = true;
       window.scrollTo(0, 0);
-      toast(mode === "signup" ? "Your prototype account is ready." : "You are signed in for this preview.");
+      toast("You are signed in.");
       form.reset();
     }
     document.getElementById("auth-form").addEventListener("submit", handlePortalLogin);
+    document.getElementById("portal").addEventListener("click", (event) => {
+      if (!hasAuthenticatedSession()) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        requireAuthentication();
+      }
+    }, true);
+    document.getElementById("portal").addEventListener("submit", (event) => {
+      if (!hasAuthenticatedSession()) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        requireAuthentication();
+      }
+    }, true);
+    window.addEventListener("hashchange", protectPortalRoute);
     document.getElementById("ask-about-law").addEventListener("click", () => {
       if (!activeDetail) return;
       const law = activeDetail;
@@ -1436,6 +1936,8 @@
 
     renderLaws();
     renderIcons();
+    restoreSession();
+    protectPortalRoute();
     loadLegalLibraryFromBackend();
   </script>
 </body>
